@@ -1,41 +1,44 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class TestMagus : MonoBehaviour {
+public class TestMagus : MonoBehaviour
+{
 
-//    private const int maximumSlotNum = 4;
+    private const int maximumSlotNum = 4;
 
-//    [SerializeField]
-//    public MagicScript[] magic;
+    [SerializeField]
+    public MagicScript[] magic;
 
-//    public GaugeControler ui;
-//    public BarGaugeControler ui2;
+    public GaugeControler ui;
+    public BarGaugeControler ui2;
 
-//    private float maximumCoolTime;
-//    private float coolTime;
-//    // Use this for initialization
-//    void Start () {
+    private float maximumCoolTime;
+    private float coolTime;
+    // Use this for initialization
+    void Start()
+    {
 
-//        Debug.Log("s");
-//        maximumCoolTime = 15.0f;
-//        coolTime = 0;
-//    }
-	
-//	// Update is called once per frame
-//	void Update () {
+        Debug.Log("s");
+        maximumCoolTime = 15.0f;
+        coolTime = 0;
+    }
 
-//		if(Input.GetKeyDown("a") && coolTime <= 0)
-//        {
-//            coolTime = maximumCoolTime;
-//            magic[0].CastSpell();
-//        }
-//        ui.setValue(maximumCoolTime, maximumCoolTime - coolTime);
-//        ui2.setValue(maximumCoolTime, coolTime);
+    // Update is called once per frame
+    void Update()
+    {
 
-//        coolTime -= 0.1f;
+        if (Input.GetKeyDown("a") && coolTime <= 0)
+        {
+            coolTime = maximumCoolTime;
+            magic[0].CastSpell();
+        }
+        ui.setValue(maximumCoolTime, maximumCoolTime - coolTime);
+        ui2.setValue(maximumCoolTime, coolTime);
 
-//        coolTime = Mathf.Clamp(coolTime, 0, maximumCoolTime);
+        coolTime -= 0.1f;
 
-//    }
-//}
+        coolTime = Mathf.Clamp(coolTime, 0, maximumCoolTime);
+
+    }
+}
