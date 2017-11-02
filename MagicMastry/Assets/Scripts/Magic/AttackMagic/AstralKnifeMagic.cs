@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class AstralKnifeMagic : MagicBase {
 
-    public override void Initialize(PlayerBase pBase) {
+    ParticleSystem ps;
 
-        float moveMag = 0.5f; //移動倍率
+    public override void Initialize(PlayerBase pBase) {
+        base.Initialize(pBase);
+
+        ps = this.GetComponent<ParticleSystem>();
+
+        float moveMag = 1f; //移動倍率
 
         //生成したオブジェクトをプレイヤーの向いている方向に移動
         Vector3 angle = pBase.transform.rotation.eulerAngles * Mathf.Deg2Rad;
@@ -36,8 +41,12 @@ public class AstralKnifeMagic : MagicBase {
             //ダメージ
             col.GetComponent<PlayerBase>().Damage(damage);
         }
-        //その後消去
-        yield return null;
-        this.GetComponent<SphereCollider>().enabled = false;
+
+        //アニメーション終了まではループ
+        while (ps.isPlaying) {
+            yield return null;
+        }
+        //その後消去 
+        pView.RPC("Final", PhotonTargets.AllViaServer);
     }
 }

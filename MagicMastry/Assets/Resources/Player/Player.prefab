@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 20718118595317516}
   - component: {fileID: 92729803869500016}
   - component: {fileID: 124846113111167680}
+  - component: {fileID: 81611840712314564}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -252,6 +253,13 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!81 &81611840712314564
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1632302511197972}
+  m_Enabled: 1
 --- !u!92 &92729803869500016
 Behaviour:
   m_ObjectHideFlags: 1
@@ -312,7 +320,7 @@ MonoBehaviour:
   m_PositionModel:
     SynchronizeEnabled: 1
     TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
+    TeleportIfDistanceGreaterThan: 1
     InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 1

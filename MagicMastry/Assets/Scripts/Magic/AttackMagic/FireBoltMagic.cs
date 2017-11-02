@@ -8,6 +8,7 @@ public class FireBoltMagic : MagicBase {
     GameObject explosion; //爆発オブジェクト
 
     public override void Initialize(PlayerBase pBase) {
+        base.Initialize(pBase);
         float speed = 10f;
 
         //生成したオブジェクトをプレイヤーの向いている方向に飛ばす
@@ -21,10 +22,12 @@ public class FireBoltMagic : MagicBase {
         vel.z = Mathf.Sin(angle.y) * speed * -1;
 
         r.velocity = vel;
+
     }
 
 
     //終了処理
+    [PunRPC]
     public override void Final() {
         //自身を消去
         Destroy(this.gameObject);

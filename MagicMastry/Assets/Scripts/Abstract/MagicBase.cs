@@ -9,9 +9,9 @@ public class MagicBase : MonoBehaviour {
     public float waitTime; //待機時間
 
     //プレイヤーのPhotonView
-    PhotonView pView;
+    protected PhotonView pView;
     //pViewのプロパティ
-    PhotonView PView {
+    protected PhotonView PView {
         get {
             if (pView == null) pView = this.GetComponent<PhotonView>();
             return pView;
@@ -22,11 +22,6 @@ public class MagicBase : MonoBehaviour {
 
     [System.NonSerialized]
     public GameObject self = null; //発射元のオブジェクト
-
-	// Use this for initialization
-	public virtual void Awake () {
-        
-	}
 	
 	// Update is called once per frame
 	public virtual void Update () {
@@ -36,13 +31,12 @@ public class MagicBase : MonoBehaviour {
     public virtual void Initialize(PlayerBase pBase) {
         //取得
         pView = this.GetComponent<PhotonView>();
-        //自身を登録
+        //発生者を登録
         self = pBase.gameObject;
     }
 
     public virtual void OnTriggerEnter(Collider col) {
         if (!CheckActionable()) return;
-
         //ぶつかったのはブロックか
         if (col.tag == "Block") pView.RPC("Final", PhotonTargets.AllViaServer);
         //敵にぶつかった
@@ -83,6 +77,7 @@ public class MagicBase : MonoBehaviour {
     //IDのプレイヤーにダメージを与える
     [PunRPC]
     public void Damage(int id) {
+        if (PhotonView.Find(id) == null) return;
         //idのオブジェクト(ダメージ対象プレイヤー)を取得
         GameObject obj = PhotonView.Find(id).gameObject;
         //ダメージを与える
