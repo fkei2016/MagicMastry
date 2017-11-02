@@ -146,8 +146,6 @@ public class GameManager : MonoBehaviour {
         //付属のカメラをアクティブに変えMainCameraに
         obj.transform.Find("Camera").gameObject.SetActive(true);
         obj.transform.Find("Camera").tag = "MainCamera";
-        //キャンバスのカメラデーター更新
-        GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
 

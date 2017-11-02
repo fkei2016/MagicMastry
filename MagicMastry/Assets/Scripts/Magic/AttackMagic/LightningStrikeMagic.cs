@@ -13,6 +13,8 @@ public class LightningStrikeMagic : MagicBase {
     const float TRANSLATE_MAG = 10f; //転送倍率
 
     public override void Initialize(PlayerBase pBase) {
+        base.Initialize(pBase);
+
         //生成したオブジェクトをプレイヤーの向いている方向に表示
         //角度を取得
         Vector3 angle = pBase.transform.rotation.eulerAngles * Mathf.Deg2Rad;
@@ -27,12 +29,12 @@ public class LightningStrikeMagic : MagicBase {
         this.transform.Rotate(-90f, 0, 0);
 
         //一定秒後に落雷
-        Invoke("Thunderbolt", THUNDERBOLT_WAIT);
+        Invoke("ThunderboltDamage", THUNDERBOLT_WAIT);
     }
 
 
-    //サンダーボルト
-    void Thunderbolt() {
+    //エフェクトの前にダメージを先行させる
+    void ThunderboltDamage() {
         //衝突オブジェクト内のオブジェクトを全て取得
         Vector3 colPos1 = colObj.transform.position;
         Vector3 colPos2 = colPos1 + (Vector3.up * colObj.GetComponent<CapsuleCollider>().height);
@@ -42,10 +44,18 @@ public class LightningStrikeMagic : MagicBase {
             //tagがプレイヤーか
             if (col.tag != "Player" || col.gameObject == self) continue;
 
-            //ダメージ
-            col.GetComponent<PlayerBase>().Damage(damage);
+            //ダメージを与える
+            pView.RPC("Damage", PhotonTargets.AllViaServer, col.GetComponent<PhotonView>().viewID);
         }
 
+        //エフェクトを発生させる
+        pView.RPC("ThunderboltEffect", PhotonTargets.AllViaServer);
+    }
+
+
+    //サンダーボルト
+    [PunRPC]
+    void ThunderboltEffect() {
 
         //プラズマエフェクトを生成
         GameObject obj = Instantiate(lightingEffect, colObj.transform.position, Quaternion.identity);

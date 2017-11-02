@@ -8,6 +8,7 @@ public class ArrowMagic : MagicBase {
     GameObject hit; //ヒットエフェクト
 
     public override void Initialize(PlayerBase pBase) {
+        base.Initialize(pBase);
         float speed = 15f;
 
         //生成したオブジェクトをプレイヤーの向いている方向に飛ばす
@@ -27,6 +28,7 @@ public class ArrowMagic : MagicBase {
 
 
     //終了処理
+    [PunRPC]
     public override void Final() {
         //自身を消去
         Destroy(this.gameObject);
