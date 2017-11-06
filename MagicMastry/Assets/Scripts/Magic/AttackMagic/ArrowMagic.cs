@@ -9,7 +9,7 @@ public class ArrowMagic : MagicBase {
 
     public override void Initialize(PlayerBase pBase) {
         base.Initialize(pBase);
-        float speed = 15f;
+        float speed = 25f;
 
         //生成したオブジェクトをプレイヤーの向いている方向に飛ばす
         Rigidbody r = this.GetComponent<Rigidbody>();

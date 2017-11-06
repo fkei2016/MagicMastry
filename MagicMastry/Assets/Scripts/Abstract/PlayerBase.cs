@@ -22,6 +22,7 @@ public class PlayerBase : MonoBehaviour {
     public class Magic {
         public UnityAction action = () => { }; //魔法処理
         public float waitTime; //待機時間
+        public float waitTimeMax; //待機時間の開始時間
         public MAGIC_SLOT slot; //魔法スロット
     }
 
@@ -117,7 +118,7 @@ public class PlayerBase : MonoBehaviour {
         //マジックデータ3
         WeakMagicList.LoadMagic(magicData.magic3, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 3), this);
         //マジックデータ4
-        WeakMagicList.LoadMagic(magicData.magic4, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 5), this);
+        WeakMagicList.LoadMagic(magicData.magic4, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 4), this);
     }
 
     //待機時間を進める
@@ -135,10 +136,13 @@ public class PlayerBase : MonoBehaviour {
         //体力が0以下なら死亡
         if (life <= 0) {
             isAlive = false;
-            //ゲーム管理の生存情報もfalseに
-            gmScript.DeadPlayer(pView.viewID);
-            //消去
-            Destroy(this.gameObject);
+            
+            //そのプレイヤーなら
+            if (pView.isMine) {
+                //ゲーム管理の生存情報もfalseに
+                gmScript.PreDeadPlayer(PhotonNetwork.player.ID, pView.viewID);
+            }
+
         }
     }
 

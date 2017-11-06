@@ -51,4 +51,6 @@ MonoBehaviour:
   - ParticleOn
   - CreateFire
   - ThunderboltEffect
+  - DeadPlayer
+  - PreDeadPlayer
   DisableAutoOpenWizard: 1
