@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class MagicSelect : MonoBehaviour {
 
@@ -69,21 +70,41 @@ public class MagicSelect : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.A))
         {
             ButtonA.sprite = magics[select].sprite;
+            //技のセット
+            PlayerPrefs.SetString("AKey", ButtonA.sprite.name);
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
             ButtonB.sprite = magics[select].sprite;
+            //技のセット
+            PlayerPrefs.SetString("BKey", ButtonB.sprite.name);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             ButtonX.sprite = magics[select].sprite;
+            //技のセット
+            PlayerPrefs.SetString("XKey", ButtonX.sprite.name);
         }
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
             ButtonY.sprite = magics[select].sprite;
+            //技のセット
+            PlayerPrefs.SetString("YKey", ButtonY.sprite.name);
         }
     }
+
+    //// 引数でStringを渡してやる
+    //public void textSave()
+    //{
+    //    StreamWriter sw = new StreamWriter(Application.dataPath + "/Resources//MagicSelectData.txt", false); //true=追記 false=上書き
+    //    sw.WriteLine("A " + ButtonA.sprite.name);
+    //    sw.WriteLine("B " + ButtonB.sprite.name);
+    //    sw.WriteLine("X " + ButtonX.sprite.name);
+    //    sw.WriteLine("Y " + ButtonY.sprite.name);
+    //    sw.Flush();
+    //    sw.Close();
+    //}
 }

@@ -150,6 +150,7 @@ public class TitleMain : MonoBehaviour
                     magicImage.SetActive(false);
                     magicSelect.enabled = false;
                 }
+
                 break;
             
         }
