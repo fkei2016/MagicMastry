@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GaugeControler : MonoBehaviour
-{
+public class ClockControler : MonoBehaviour {
     [SerializeField]
-    private Image gauge;
-	// Use this for initialization
-	void Start () {
+    private Image hand;
+    // Use this for initialization
+    void Start()
+    {
     }
 
     //０～１までの数字を指定して円ゲージの値を変更
     public void set(float value)
     {
         value = Mathf.Clamp(value, 0.0f, 1.0f);
-        gauge.fillAmount = value;
+        hand.transform.rotation = Quaternion.Euler(new Vector3(0,0,360 * value));
     }
 
     //最大値と現在値から円ゲージの値を変更

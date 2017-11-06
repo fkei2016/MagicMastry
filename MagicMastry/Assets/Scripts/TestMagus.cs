@@ -10,8 +10,9 @@ public class TestMagus : MonoBehaviour
     [SerializeField]
     public MagicScript[] magic;
 
-    public GaugeControler ui;
+    public CooldownGaugeManager ui;
     public BarGaugeControler ui2;
+    public ClockControler ui3;
 
     private float maximumCoolTime;
     private float coolTime;
@@ -33,8 +34,9 @@ public class TestMagus : MonoBehaviour
             coolTime = maximumCoolTime;
             magic[0].CastSpell();
         }
-        ui.setValue(maximumCoolTime, maximumCoolTime - coolTime);
+        ui.GaugeUp.setValue(maximumCoolTime, maximumCoolTime - coolTime);
         ui2.setValue(maximumCoolTime, coolTime);
+        ui3.setValue(maximumCoolTime, coolTime);
 
         coolTime -= 0.1f;
 
