@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class BarGaugeControler : MonoBehaviour
 {
+    [SerializeField]
     private Image gauge;
     // Use this for initialization
     void Start()
     {
-        gauge = GetComponent<Image>();
     }
 
     //０～１までの数字を指定して円ゲージの値を変更

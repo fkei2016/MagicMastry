@@ -22,6 +22,10 @@ public class TitleMain : MonoBehaviour
 
     private PlyayType playtype;
 
+    private MagicSelect magicSelect;
+
+    private bool moveFlag = false;
+
     enum State
     {
         stop,
@@ -38,6 +42,7 @@ public class TitleMain : MonoBehaviour
     void Start()
     {
         playtype =GetComponent<PlyayType>();
+        magicSelect = GetComponent<MagicSelect>();
     }
 
     // Update is called once per frame
@@ -61,21 +66,30 @@ public class TitleMain : MonoBehaviour
 
             case State.Title:
 
-                //カメラの自動回転停止
-                center.GetComponent<CameraRote>().enabled = false;
-
-                //iTweenを使ったカメラの移動と回転
-                iTween.RotateTo(center, iTween.Hash("y", 0, "time", 1));
-                iTween.MoveTo(center, iTween.Hash("y", -14, "time", 1, "oncomplete", "NextState", "oncompletetarget", gameObject));
-                iTween.RotateTo(camera.gameObject, iTween.Hash("x", 0, "islocal", true));
-
+                //移動してなかったら移動開始
+                if (moveFlag == false)
+                {
+                    moveFlag = true;
+                    //カメラの自動回転停止
+                    center.GetComponent<CameraRote>().enabled = false;
+                    //iTweenを使ったカメラの移動と回転
+                    iTween.RotateTo(center, iTween.Hash("y", 0, "time", 1));
+                    iTween.MoveTo(center, iTween.Hash("y", -14, "time", 1, "oncomplete", "NextState", "oncompletetarget", gameObject));
+                    iTween.RotateTo(camera.gameObject, iTween.Hash("x", 0, "islocal", true));
+                }
                 break;
 
             case State.Select:
 
-                //iTweenを使ったカメラの移動
-                iTween.MoveTo(center, iTween.Hash("z", 100, "time", 5, "oncomplete", "NextState", "oncompletetarget", gameObject));
-
+                //移動してなかったら移動開始
+                if (moveFlag == false)
+                {
+                    moveFlag = true;
+                    //iTweenを使ったカメラの移動
+                    iTween.RotateTo(center, iTween.Hash("y", 0, "time", 1));
+                    iTween.MoveTo(center, iTween.Hash("x", -2, "y", -14, "z", 100, "time", 5, "oncomplete", "NextState", "oncompletetarget", gameObject));
+                    iTween.RotateTo(camera.gameObject, iTween.Hash("y", 0, "islocal", true));
+                }
                 break;
 
             case State.SelectOne:
@@ -105,20 +119,37 @@ public class TitleMain : MonoBehaviour
                 break;
 
             case State.MagicSelect:
-
-                //iTweenを使ったカメラの移動と回転
-                iTween.MoveTo(center, iTween.Hash("x", 6.5, "z", 115, "time", 3, "oncomplete", "NextState", "oncompletetarget", gameObject));
-                iTween.RotateTo(camera.gameObject, iTween.Hash("y", 180, "islocal", true));
-
+                
+                //移動してなかったら移動開始
+                if (moveFlag == false)
+                {
+                    moveFlag = true;
+                    //iTweenを使ったカメラの移動と回転
+                    iTween.MoveTo(center, iTween.Hash("x", 6.5, "z", 115, "time", 3, "oncomplete", "NextState", "oncompletetarget", gameObject));
+                    iTween.RotateTo(camera.gameObject, iTween.Hash("y", 180, "islocal", true));
+                }
                 break;
 
             case State.MagicSelectOne:
 
-                if(magicImage == false)
+                //マジックセレクトを表示
+                if(magicImage.GetActive() == false)
                 {
                     magicImage.SetActive(true);
+                    magicSelect.enabled = true;
                 }
 
+                if(Input.GetKeyDown(KeyCode.Space))
+                {
+                    print("Game");
+                }
+
+                if (Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    state = State.Select;
+                    magicImage.SetActive(false);
+                    magicSelect.enabled = false;
+                }
 
                 break;
             
@@ -128,5 +159,6 @@ public class TitleMain : MonoBehaviour
     void NextState()
     {
         state = state + 1;
+        moveFlag = false;
     }
 }
