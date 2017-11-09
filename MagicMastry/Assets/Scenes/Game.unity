@@ -588,7 +588,7 @@ MonoBehaviour:
 --- !u!1 &1192488280
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1632302511197972, guid: b71881f8306437148a2d9a6064cd32f2,
+  m_PrefabParentObject: {fileID: 1136120898610252, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
     type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
@@ -608,14 +608,15 @@ GameObject:
 --- !u!81 &1192488281
 AudioListener:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 81645323344673132, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1192488280}
   m_Enabled: 1
 --- !u!124 &1192488282
 Behaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 124846113111167680, guid: b71881f8306437148a2d9a6064cd32f2,
+  m_PrefabParentObject: {fileID: 124476071527805558, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1192488280}
@@ -623,7 +624,7 @@ Behaviour:
 --- !u!92 &1192488283
 Behaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 92729803869500016, guid: b71881f8306437148a2d9a6064cd32f2,
+  m_PrefabParentObject: {fileID: 92115605631939276, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1192488280}
@@ -631,7 +632,7 @@ Behaviour:
 --- !u!20 &1192488284
 Camera:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 20718118595317516, guid: b71881f8306437148a2d9a6064cd32f2,
+  m_PrefabParentObject: {fileID: 20988467749204340, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1192488280}
@@ -668,7 +669,7 @@ Camera:
 --- !u!4 &1192488285
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 4606757677611948, guid: b71881f8306437148a2d9a6064cd32f2,
+  m_PrefabParentObject: {fileID: 4242449250121778, guid: 12df1cdd67fc3b44caa96910ff3ef59e,
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1192488280}
@@ -1125,6 +1126,7 @@ GameObject:
   - component: {fileID: 1878699432}
   - component: {fileID: 1878699434}
   - component: {fileID: 1878699435}
+  - component: {fileID: 1878699436}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Manager
@@ -1148,6 +1150,9 @@ MonoBehaviour:
   - respawnPoint: {fileID: 2116741163}
   - respawnPoint: {fileID: 646690959}
   - respawnPoint: {fileID: 1709249808}
+  deadCameraInfo:
+    pos: {x: -22, y: 17.4, z: 0}
+    rot: {x: 44.6, y: 90, z: 0}
 --- !u!4 &1878699433
 Transform:
   m_ObjectHideFlags: 0
@@ -1198,6 +1203,17 @@ MonoBehaviour:
   instantiationId: 900
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &1878699436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1878699431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8733f26423fd2140829cd53fc71d5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1955991093
 GameObject:
   m_ObjectHideFlags: 0

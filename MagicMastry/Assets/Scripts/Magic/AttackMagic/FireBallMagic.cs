@@ -8,6 +8,8 @@ public class FireBallMagic : MagicBase {
     GameObject explosion; //爆発オブジェクト
 
     public override void Initialize(PlayerBase pBase) {
+        base.Initialize(pBase);
+
         float speedMin = 3f;
         float speedMax = 8f;
 
@@ -34,6 +36,7 @@ public class FireBallMagic : MagicBase {
 
 
     //終了処理
+    [PunRPC]
     public override void Final() {
         //自身を消去
         Destroy(this.gameObject);

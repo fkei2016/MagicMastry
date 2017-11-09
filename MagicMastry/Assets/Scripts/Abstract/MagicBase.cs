@@ -42,7 +42,7 @@ public class MagicBase : MonoBehaviour {
         //敵にぶつかった
         if (col.tag == "Player" && col.gameObject != self) {
             //ダメージを与える
-            pView.RPC("Damage", PhotonTargets.AllViaServer, col.GetComponent<PhotonView>().viewID);
+            pView.RPC("Damage", PhotonTargets.AllViaServer, col.GetComponent<PhotonView>().viewID, damage);
             //最終処理を行う
             pView.RPC("Final", PhotonTargets.AllViaServer);
         }
@@ -76,12 +76,13 @@ public class MagicBase : MonoBehaviour {
 
     //IDのプレイヤーにダメージを与える
     [PunRPC]
-    public void Damage(int id) {
+    public void Damage(int id, int dam) {
         if (PhotonView.Find(id) == null) return;
         //idのオブジェクト(ダメージ対象プレイヤー)を取得
         GameObject obj = PhotonView.Find(id).gameObject;
         //ダメージを与える
-        obj.GetComponent<PlayerBase>().Damage(damage);
+        obj.GetComponent<PlayerBase>().Damage(dam);
+        //print(obj + "に" + dam + "のダメージ");
     }
 
 

@@ -45,7 +45,7 @@ public class LightningStrikeMagic : MagicBase {
             if (col.tag != "Player" || col.gameObject == self) continue;
 
             //ダメージを与える
-            pView.RPC("Damage", PhotonTargets.AllViaServer, col.GetComponent<PhotonView>().viewID);
+            pView.RPC("Damage", PhotonTargets.AllViaServer, col.GetComponent<PhotonView>().viewID, damage);
         }
 
         //エフェクトを発生させる

@@ -76,7 +76,7 @@ public class WeakMagicList : MonoBehaviour {
         //最終処理までの猶予を定める
         //Destroy(obj, obj.GetComponent<MagicBase>().destroyTime * pBase.destroyMag);
         //クールタイムを設ける
-        magic.waitTime = obj.GetComponent<MagicBase>().waitTime * pBase.waitTimeMag;
+        magic.waitTime = magic.waitTimeMax = obj.GetComponent<MagicBase>().waitTime * pBase.waitTimeMag;
         //ダメージ補正をかける
         obj.GetComponent<MagicBase>().damage = (int)(obj.GetComponent<MagicBase>().damage * pBase.damageMag);
 
