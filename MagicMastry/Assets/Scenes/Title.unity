@@ -23556,7 +23556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &825433140
 Transform:
   m_ObjectHideFlags: 0
@@ -23582,7 +23582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: 0.25
-  bgmName: Title_BGM
+  bgmName: b
 --- !u!1001 &831787315
 Prefab:
   m_ObjectHideFlags: 0
