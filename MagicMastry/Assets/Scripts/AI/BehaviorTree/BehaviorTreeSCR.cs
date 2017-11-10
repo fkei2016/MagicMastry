@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// オブザーバーパターン用の初期設定.
-[RequireComponent(typeof(BehaviorTree_ObseverSCR))]
-[RequireComponent(typeof(BehaviorTree_SubjectSCR))]
-
 public class BehaviorTreeSCR : BehaviorTreeNodeSCR
 {
     [SerializeField]
@@ -14,7 +10,7 @@ public class BehaviorTreeSCR : BehaviorTreeNodeSCR
     private void Start()
     {
         // サブジェクトのオブザーバーを設定する.
-        m_nodeSCR.GetSubjectSCR().Attach(m_obseverSCR);
+        m_nodeSCR.Attach(this);
 
         // 初期化.
         m_nodeSCR.Setup();
@@ -28,20 +24,13 @@ public class BehaviorTreeSCR : BehaviorTreeNodeSCR
 
     public override void Accept()
     {
-        m_nodeSCR.GetComponent<CompositeSCR>().Setup();
+        m_nodeSCR.Setup();
     }
 
     public override void Accept(int error)
     {
         base.Accept(error);
 
-        m_nodeSCR.GetComponent<CompositeSCR>().Setup();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        this.gameObject.transform.eulerAngles += new Vector3(0, 170, 0);
-        // 行動を考え直す.
-        Accept();
+        m_nodeSCR.Setup();
     }
 }

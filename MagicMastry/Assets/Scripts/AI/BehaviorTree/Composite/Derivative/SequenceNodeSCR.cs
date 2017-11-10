@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// オブザーバーパターン用の初期設定.
-[RequireComponent(typeof(BehaviorTree_ObseverSCR))]
-[RequireComponent(typeof(BehaviorTree_SubjectSCR))]
-
 public class SequenceNodeSCR : CompositeSCR
 {
     /*--------------------------------------------------------------------------------------------*/
@@ -14,7 +10,7 @@ public class SequenceNodeSCR : CompositeSCR
     /**
      * @brief 通知を受けた場合に呼ばれる
      * @author shinji
-     * @date 11/02
+     * @date 11/09
      */
     public override void Accept()
     {
@@ -24,7 +20,7 @@ public class SequenceNodeSCR : CompositeSCR
         // 2.1.ノードが存在しない場合->オブザーバーの実行(11/02).
         if (m_currentNodeSCRNumber >= m_nodeSCRList.Length)
         {
-            m_subjectSCR.Notify();
+            Notify();
         }
         // 2.2.ノードが存在しない場合->初期化を行う(11/02).
         else
@@ -37,12 +33,11 @@ public class SequenceNodeSCR : CompositeSCR
      * @brief 通知を受けた場合に呼ばれる
      * @param エラーコード
      * @author shinji
-     * @date 11/02
+     * @date 11/09
      */
     public override void Accept(int error)
     {
-        //print("Error:" + gameObject.name);
-        m_subjectSCR.Notify(error);
+        Notify(error);
     }
     /*--------------------------------------------------------------------------------------------*/
 }
