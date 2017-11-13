@@ -23516,7 +23516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &825433140
 Transform:
   m_ObjectHideFlags: 0
@@ -23542,7 +23542,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: 0.25
-<<<<<<< HEAD
   bgmName: Title_BGM
 --- !u!1 &830229050
 GameObject:
@@ -23578,9 +23577,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
-=======
-  bgmName: b
->>>>>>> a50c6154582b24b4536c25fed19f361a9841eda9
 --- !u!1001 &831787315
 Prefab:
   m_ObjectHideFlags: 0
