@@ -5,8 +5,15 @@ using UnityEngine;
 public class PhotonMatchManager : MonoBehaviour {
 
     void Awake() {
-        // Server接続
-        PhotonNetwork.ConnectUsingSettings(null);
+        //一度接続されている状態なら適当なロビーに入る
+        if(PhotonNetwork.connectionStateDetailed == ClientState.ConnectedToMaster) {
+            PhotonNetwork.JoinLobby();
+        }
+        else {
+            // Server接続
+            PhotonNetwork.ConnectUsingSettings(null);
+        }
+        
         
     }
 
@@ -38,7 +45,7 @@ public class PhotonMatchManager : MonoBehaviour {
     void OnJoinedRoom() {
         Debug.Log("Room参加成功！");
         //マッチング人数の増加
-        this.GetComponent<PhotonView>().RPC("EntryJoinPlayerData", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.ID);
+        this.GetComponent<PhotonView>().RPC("EntryJoinPlayerData", PhotonTargets.AllBufferedViaServer, PhotonNetwork.player.ID, PlayerPrefs.GetString(SaveDataKey.PLAYER_NAME_KEY, "Nuller"));
     }
 
 #if UNITY_EDITOR

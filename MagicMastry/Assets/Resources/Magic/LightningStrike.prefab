@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014433d423796334889bbc14dc37c65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 40
+  damage: 60
   destroyTime: 99
   waitTime: 15
   lightingEffect: {fileID: 1298922450796552, guid: 9683d204a472130479534b3edd0f3b50,

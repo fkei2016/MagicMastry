@@ -9,4 +9,6 @@ public class SaveDataKey {
     public static readonly string PLAYER_MAGIC3_KEY = "PLAYER_MAGIC3_KEY"; //魔法3を読み込む鍵
     public static readonly string PLAYER_MAGIC4_KEY = "PLAYER_MAGIC4_KEY"; //魔法4を読み込む鍵
 
+    public static readonly string PLAYER_NAME_KEY = "PLAYER_NAME_KEY"; //プレイヤーの名前を読み込む鍵
+
 }

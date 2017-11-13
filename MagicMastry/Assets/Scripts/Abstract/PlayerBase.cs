@@ -114,11 +114,11 @@ public class PlayerBase : MonoBehaviour {
         //マジックデータ1
         WeakMagicList.LoadMagic(magicData.magic1, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC1_KEY, 1), this);
         //マジックデータ2
-        WeakMagicList.LoadMagic(magicData.magic2, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC2_KEY, 2), this);
+        WeakMagicList.LoadMagic(magicData.magic2, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC2_KEY, 1), this);
         //マジックデータ3
-        WeakMagicList.LoadMagic(magicData.magic3, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 3), this);
+        WeakMagicList.LoadMagic(magicData.magic3, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 1), this);
         //マジックデータ4
-        WeakMagicList.LoadMagic(magicData.magic4, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 4), this);
+        WeakMagicList.LoadMagic(magicData.magic4, PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 1), this);
     }
 
     //待機時間を進める

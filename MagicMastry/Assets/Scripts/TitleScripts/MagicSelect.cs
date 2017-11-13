@@ -6,105 +6,202 @@ using System.IO;
 
 public class MagicSelect : MonoBehaviour {
 
+    //読み込める魔法一覧
+    [System.Serializable]
+    public class MagicData {
+        public SelectMagicData[] data = new SelectMagicData[6];
+    }
+
+
+
     [SerializeField]
-    private Image[] magics;
+    MagicData[] magics; //読み込める魔法一覧
+
+    Vector3[] cursorMemoryPosition = new Vector3[6]; //カーソル記憶座標
+
+    int magicTab = 0; //現在のマジックタブ
+    int select = 0; //現在の魔法(0~5)
+    int directionKey = 0; //キーの方向
+    int oldDirectionKey = 0; //前回の方向キー
 
     [SerializeField]
     private Image cursor;
 
     [SerializeField]
-    private Image ButtonA;
+    private Image ButtonA; //s
+    [SerializeField]
+    private Image ButtonB; //d
+    [SerializeField]
+    private Image ButtonX; //a
+    [SerializeField]
+    private Image ButtonY; //w
+    int buttonA_ID; //s
+    int buttonB_ID; //d
+    int buttonX_ID; //a
+    int buttonY_ID; //w  
 
     [SerializeField]
-    private Image ButtonB;
-
+    Text magicText; //魔法説明用のテキスト
     [SerializeField]
-    private Image ButtonX;
+    Text magicComment; //魔法説明用のコメント
 
-    [SerializeField]
-    private Image ButtonY;
-
-    private int select = 0;
 
     // Use this for initialization
     void Start () {
 
-        //最初は一番上の技を選択
-        cursor.transform.position = magics[select].transform.position;
-	}
+        //カーソル記憶座標の記憶
+        CursorMemoryPosition();
+        //現在のマジックタブをアクティブ化
+        ActiveCurrentMagicTab();
+        //魔法テキストを変更
+        ChangeMagicText();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-	
 
-        //カーソル上移動
-        if(Input.GetKeyDown(KeyCode.UpArrow) && select > 0 )
-        {
-            select--;
-            cursor.transform.position = magics[select].transform.position;
-        }
+        //カーソルをその現在の位置に
+        SetCursorPosition();
 
-        //カーソル下移動
-        if (Input.GetKeyDown(KeyCode.DownArrow) && select < magics.Length - 1) 
-        {
-            select++;
-            cursor.transform.position = magics[select].transform.position;
-        }
+        //前回の方向キーを更新
+        UpdateOldDirectionKey();
+        //カーソルの移動
+        MoveCursor();
 
-        //カーソル右移動
-        if (Input.GetKeyDown(KeyCode.RightArrow) && select < magics.Length / 3 + 1)
-        {
-           
-            select += 3;
-            cursor.transform.position = magics[select].transform.position;
-        }
+        //技のセット
+        SetMagic();
+        
+    }
 
-        //カーソル左移動
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && select > magics.Length / 3)
-        {
-            select -= 3;
-            cursor.transform.position = magics[select].transform.position;
-        }
 
-        //技決定
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ButtonA.sprite = magics[select].sprite;
-            //技のセット
-            PlayerPrefs.SetString("AKey", ButtonA.sprite.name);
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ButtonB.sprite = magics[select].sprite;
-            //技のセット
-            PlayerPrefs.SetString("BKey", ButtonB.sprite.name);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            ButtonX.sprite = magics[select].sprite;
-            //技のセット
-            PlayerPrefs.SetString("XKey", ButtonX.sprite.name);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            ButtonY.sprite = magics[select].sprite;
-            //技のセット
-            PlayerPrefs.SetString("YKey", ButtonY.sprite.name);
+    //カーソル記憶座標の記憶
+    void CursorMemoryPosition() {
+        for (int i = 0; i < cursorMemoryPosition.Length; i++) {
+            cursorMemoryPosition[i] = magics[0].data[i].transform.position;
         }
     }
 
-    //// 引数でStringを渡してやる
-    //public void textSave()
-    //{
-    //    StreamWriter sw = new StreamWriter(Application.dataPath + "/Resources//MagicSelectData.txt", false); //true=追記 false=上書き
-    //    sw.WriteLine("A " + ButtonA.sprite.name);
-    //    sw.WriteLine("B " + ButtonB.sprite.name);
-    //    sw.WriteLine("X " + ButtonX.sprite.name);
-    //    sw.WriteLine("Y " + ButtonY.sprite.name);
-    //    sw.Flush();
-    //    sw.Close();
-    //}
+    //カーソルをその現在の位置に
+    void SetCursorPosition() {
+        cursor.transform.position = cursorMemoryPosition[select];
+    }
+
+
+    //カーソルの移動
+    void MoveCursor() {
+        //方向キーを取得
+        GetDirectionKey();
+
+        //カーソル上移動
+        if (directionKey == 1 && oldDirectionKey != 1) {
+            ChangeSelect(-1);
+        }
+
+        //カーソル下移動
+        else if (directionKey == 2 && oldDirectionKey != 2) {
+            ChangeSelect(1);
+        }
+
+        //カーソル右移動
+        else if (directionKey == 3 && oldDirectionKey != 3) {
+            ChangeSelect(3);
+        }
+
+        //カーソル左移動
+        else if (directionKey == 4 && oldDirectionKey != 4) {
+            ChangeSelect(-3);
+        }
+
+        //魔法テキストを変更
+        ChangeMagicText();
+    }
+
+
+    //方向キーを取得
+    void GetDirectionKey() {
+        //上方向
+        if (Input.GetAxisRaw("Vertical") > 0.2f) directionKey = 1;
+        //下方向
+        else if (Input.GetAxisRaw("Vertical") < -0.2f) directionKey = 2;
+        //右方向
+        else if (Input.GetAxisRaw("Horizontal") > 0.2f) directionKey = 3;
+        //左方向
+        else if (Input.GetAxisRaw("Horizontal") < -0.2f) directionKey = 4;
+        //押されていない
+        else directionKey = 0;
+    }
+
+
+    //旧方向キーの更新
+    void UpdateOldDirectionKey() {
+        oldDirectionKey = directionKey;
+    }
+
+
+    //セレクト値の変更
+    void ChangeSelect(int n) {
+        //0未満6以上になるなら中止
+        if (select + n < 0 || select + n >= 6) return;
+
+        select += n;
+    }
+
+    //現在のタブの魔法一覧をアクティブに
+    void ActiveCurrentMagicTab() {
+        //いったんすべてのタブを消去
+        foreach (MagicData magic in magics) {
+            for (int i = 0; i < magic.data.Length; i++) {
+                magic.data[i].gameObject.SetActive(false);
+            }
+        }
+        //現在のタブの部分だけアクティブに
+        for (int i = 0; i < magics[magicTab].data.Length; i++) {
+            magics[magicTab].data[i].gameObject.SetActive(true);
+        }
+    }
+
+    //テキストをその位置の魔法用に変更
+    void ChangeMagicText() {
+        magicText.text = magics[magicTab].data[select].magicName + "\n";
+        magicText.text += magics[magicTab].data[select].damage + "ダメージ\n";
+        magicText.text += "再使用" + magics[magicTab].data[select].waitTime + "秒:\n";
+
+        magicComment.text = magics[magicTab].data[select].comment;
+    }
+
+
+    //魔法をセット
+    void SetMagic() {
+        //技決定
+        //w
+        if (Input.GetAxisRaw("Magic1") != 0 && buttonY_ID != magics[magicTab].data[select].saveID) {
+            ButtonY.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+            buttonY_ID = magics[magicTab].data[select].saveID;
+            //技のセット
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC1_KEY, buttonY_ID);
+        }
+        //a
+        if (Input.GetAxisRaw("Magic2") != 0 && buttonX_ID != magics[magicTab].data[select].saveID) {
+            ButtonX.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+            buttonX_ID = magics[magicTab].data[select].saveID;
+            //技のセット
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC2_KEY, buttonX_ID);
+        }
+        //d
+        if (Input.GetAxisRaw("Magic3") != 0 && buttonB_ID != magics[magicTab].data[select].saveID) {
+            ButtonB.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+            buttonB_ID = magics[magicTab].data[select].saveID;
+            //技のセット
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC3_KEY, buttonB_ID);
+        }
+        //s
+        if (Input.GetAxisRaw("Magic4") != 0 && buttonA_ID != magics[magicTab].data[select].saveID) {
+            ButtonA.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+            buttonA_ID = magics[magicTab].data[select].saveID;
+            //技のセット
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC4_KEY, buttonA_ID);
+        }
+    }
+
 }

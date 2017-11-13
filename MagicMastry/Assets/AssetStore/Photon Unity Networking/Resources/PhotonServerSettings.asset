@@ -53,4 +53,5 @@ MonoBehaviour:
   - ThunderboltEffect
   - DeadPlayer
   - PreDeadPlayer
+  - mes
   DisableAutoOpenWizard: 1

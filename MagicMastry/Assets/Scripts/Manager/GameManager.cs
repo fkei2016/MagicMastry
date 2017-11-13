@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -41,6 +42,9 @@ public class GameManager : MonoBehaviour {
     [System.NonSerialized]
     public float gameStartTime = 3f; //ゲーム開始までの時間
 
+    bool aliveSelf = true; //自身が生きているか
+    bool backTitleTextSelf = false; //自身がタイトルに戻るためのテキストを生成したか
+
     PhotonView managerView;
 
 
@@ -55,7 +59,16 @@ public class GameManager : MonoBehaviour {
         MatchingComplete();
         //ゲームの勝利者が確定したか
         ConfirmWinner();
-	}
+        //タイトルに戻るかチェック
+        CheckBackTitle();
+    }
+
+
+    //切断時の処理
+    void OnPhotonPlayerDisconnected() {
+        //消えたプレイヤーを特定しプレイヤーデータクラスから排除
+        DeleteDisconnectPlayer();
+    }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.isWriting) {
@@ -78,7 +91,7 @@ public class GameManager : MonoBehaviour {
     //プレイヤーデータ登録
     //p1:プレイヤーid
     [PunRPC]
-    public void EntryJoinPlayerData(int id) {
+    public void EntryJoinPlayerData(int id, string name) {
         //空きデータを探す
         foreach (JoinPlayerData data in joinPlayerData) {
             if (data.playerID != -1) continue;
@@ -87,7 +100,7 @@ public class GameManager : MonoBehaviour {
             //マッチングしているプレイヤーの人数を変更
             MatchPlayerChange(1);
             //プレイヤーの名前を登録(仮)
-            data.name = "Player" + id.ToString();
+            data.name = name;
             break;
         }
     }
@@ -171,6 +184,10 @@ public class GameManager : MonoBehaviour {
         managerView.RPC("DeadPlayer", PhotonTargets.AllViaServer, pID, vID);
         //消去対象のプレイヤーに死亡カメラを生成させる
         CreateDeadCamera();
+        //切断可能メッセージを表示
+        CreateDisconnectableText();
+        //死亡をひもづける
+        aliveSelf = false;
     }
 
 
@@ -178,17 +195,17 @@ public class GameManager : MonoBehaviour {
     [PunRPC]
     public void DeadPlayer(int pID, int vID) {
         foreach (JoinPlayerData data in joinPlayerData) {
-            //IDが違うなら処理しなおす
+            //PlayerIDが違うなら処理しなおす
             if (data.playerID != pID) continue;
             //同じなら死亡判定
             data.alive = false;
             //消去
             GameObject obj = PhotonView.Find(vID).gameObject;
-            print(obj);
             Destroy(obj.gameObject);
             break;
         }
     }
+
 
     //死亡時のカメラを生成
     void CreateDeadCamera() {
@@ -197,9 +214,24 @@ public class GameManager : MonoBehaviour {
         //Transform情報を変更
         obj.transform.position = deadCameraInfo.pos;
         obj.transform.rotation = Quaternion.Euler(deadCameraInfo.rot);
-
-
     }
+
+
+    //切断可能メッセージを表示
+    void CreateDisconnectableText() {
+        //勝利者のテキストを生成
+        GameObject res = Resources.Load("Text/BackTitleText") as GameObject;
+        GameObject obj = Instantiate(res, this.transform.position, Quaternion.identity);
+        obj.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+        obj.transform.localPosition = res.transform.localPosition;
+        obj.transform.localScale = res.transform.localScale;
+        obj.transform.localRotation = res.transform.localRotation;
+
+        //タイトルに戻るためのテキストを生成済みに
+        backTitleTextSelf = true;
+    }
+
+
 
     //ゲームの勝利者が確定したか
     void ConfirmWinner() {
@@ -219,6 +251,9 @@ public class GameManager : MonoBehaviour {
         obj.transform.localRotation = res.transform.localRotation;
         //勝者の名前を張り付ける
         obj.GetComponent<Text>().text = GetOnlyAlivePlayer() + "の勝利！";
+
+        //まだタイトルに戻るためのテキストを生成していなければ生成
+        if (backTitleTextSelf == false) CreateDisconnectableText();
     }
 
 
@@ -250,7 +285,47 @@ public class GameManager : MonoBehaviour {
         //ここより下の処理はありえない
         print("**GetOnlyAlivePlayer関数がありえない場所まで処理が来ました**");
         return "Error2";
+    }
+
+
+    //タイトルに戻るかチェック
+    void CheckBackTitle() {
+        //自身が死亡していて且つタイトルボタンが押されているか
+        if (Input.GetAxisRaw("Back") == 0 || backTitleTextSelf == false) return;
+
+        //ルームから出る
+        PhotonNetwork.LeaveRoom();
+        //ロビーから出る
+        PhotonNetwork.LeaveLobby();
+        //タイトルへ
+        SceneManager.LoadScene("Title");
 
     }
+
+
+    //消えたプレイヤーを特定しプレイヤーデータクラスから排除
+    void DeleteDisconnectPlayer() {
+        //登録されているプレイヤーを探す
+        foreach (JoinPlayerData data in joinPlayerData) {
+            //生きているか
+            if (data.alive == false) continue;
+
+            bool deletable = true; //このデータを削除するか
+            //現在の参加プレイヤーを探す
+            foreach (PhotonPlayer player in PhotonNetwork.playerList) {
+                //プレイヤーIDと一致しているか
+                if (data.playerID == player.ID) {
+                    deletable = false;
+                    break;
+                }
+            }
+
+            //削除状態なら消去
+            if (deletable) data.alive = false;
+
+        }
+    }
+
+
 
 }

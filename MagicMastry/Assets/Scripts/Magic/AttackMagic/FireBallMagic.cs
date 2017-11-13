@@ -14,7 +14,7 @@ public class FireBallMagic : MagicBase {
         float speedMax = 8f;
 
         int damageMin = 5;
-        int damageMax = 30;
+        int damageMax = 35;
 
         //速度を求める
         float speed = Random.Range(speedMin, speedMax);
