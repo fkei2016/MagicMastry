@@ -6,12 +6,13 @@ public class PlayerMove : MonoBehaviour {
 
     PlayerBase pBase; //プレイヤーの基礎クラス
     PhotonView pView;
+    Animator anim; 
 
 	// Use this for initialization
 	void Start () {
         pBase = this.GetComponent<PlayerBase>();
         pView = this.GetComponent<PhotonView>();
-        
+        anim = this.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -33,10 +34,14 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetAxisRaw("Vertical") != 0) {
             //向いている方向に前進
             pBase.Advance(Input.GetAxisRaw("Vertical") * pBase.speedMag);
+            //移動中に
+            anim.SetBool("IsWalking", true);
         }
         //前進キーが押されていない
         else {
             pBase.MoveStop();
+            //移動中に
+            anim.SetBool("IsWalking", false);
         }
     }
 
@@ -49,6 +54,9 @@ public class PlayerMove : MonoBehaviour {
             pBase.Turnaround(Input.GetAxisRaw("Horizontal"));
         }
     }
+
+
+
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.isWriting) {

@@ -55,12 +55,14 @@ public class PlayerBase : MonoBehaviour {
 
     Rigidbody rigid;
     GameManager gmScript;
+    Animator anim;
 
 	// Use this for initialization
 	public virtual void Awake () {
         rigid = this.GetComponent<Rigidbody>();
         gmScript = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         pView = this.GetComponent<PhotonView>();
+        anim = this.GetComponent<Animator>();
 
         //魔法データを読み込む
         if(pView.isMine) LoadMagic();
@@ -141,6 +143,8 @@ public class PlayerBase : MonoBehaviour {
             if (pView.isMine) {
                 //ゲーム管理の生存情報もfalseに
                 gmScript.PreDeadPlayer(PhotonNetwork.player.ID, pView.viewID);
+                //死亡アニメ
+                anim.SetBool("IsDead", true);
             }
 
         }

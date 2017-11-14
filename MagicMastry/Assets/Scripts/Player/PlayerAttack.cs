@@ -6,11 +6,13 @@ public class PlayerAttack : MonoBehaviour {
 
     PlayerBase pBase; //プレイヤーの基礎クラス
     PhotonView pView;
+    Animator anim;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
         pBase = this.GetComponent<PlayerBase>();
         pView = this.GetComponent<PhotonView>();
+        anim = this.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -28,21 +30,29 @@ public class PlayerAttack : MonoBehaviour {
             if (pBase.magicData.magic1.waitTime > 0) return;
             //待機時間があるか
             pBase.magicData.magic1.action.Invoke();
+            //攻撃トリガー
+            anim.SetTrigger("Attack");
         }
         //aキー担当
         else if (Input.GetAxisRaw("Magic2") != 0) {
             if (pBase.magicData.magic2.waitTime > 0) return;
             pBase.magicData.magic2.action.Invoke();
+            //攻撃トリガー
+            anim.SetTrigger("Attack");
         }
         //dキー担当
         else if (Input.GetAxisRaw("Magic3") != 0) {
             if (pBase.magicData.magic3.waitTime > 0) return;
             pBase.magicData.magic3.action.Invoke();
+            //攻撃トリガー
+            anim.SetTrigger("Attack");
         }
         //sキー担当
         else if (Input.GetAxisRaw("Magic4") != 0) {
             if (pBase.magicData.magic4.waitTime > 0) return;
             pBase.magicData.magic4.action.Invoke();
+            //攻撃トリガー
+            anim.SetTrigger("Attack");
         }
     }
 

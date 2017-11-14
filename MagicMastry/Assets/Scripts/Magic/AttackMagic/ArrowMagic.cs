@@ -24,6 +24,10 @@ public class ArrowMagic : MagicBase {
         r.velocity = vel;
         //自身の角度を変更する
         this.transform.rotation = Quaternion.Euler(pBase.transform.rotation.eulerAngles);
+
+
+        //自身の座標を少し上げる
+        this.transform.Translate(0, 0.5f, 0);
     }
 
 
