@@ -5747,7 +5747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: 9faa39308a60d554c899058b48401d25, type: 3}
   magicName: "\u30E9\u30A4\u30C8\u30CB\u30F3\u30B0\u30B9\u30C6\u30C3\u30D7"
   waitTime: 30
   damage: -1
@@ -19062,7 +19062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: 123416e0e4ea79e4783e2ff1ecf22885, type: 3}
   magicName: "\u30E9\u30A4\u30C8\u30CB\u30F3\u30B0\u30B9\u30C8\u30E9\u30A4\u30AF"
   waitTime: 15
   damage: 60
@@ -32881,7 +32881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: 458c2a2253fce584d987fc4e42fd8b1f, type: 3}
   magicName: "\u30D5\u30A1\u30A4\u30A2\u30DC\u30FC\u30EB"
   waitTime: 3
   damage: 0
@@ -44727,7 +44727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: 06d0a9aa671fdb645b51c703bacb7bc8, type: 3}
   magicName: "\u30D5\u30A1\u30A4\u30A2\u30DC\u30EB\u30C8"
   waitTime: 0.3
   damage: 5
@@ -45677,7 +45677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: b1b13a73109f02841b1a1d9e29b85beb, type: 3}
   magicName: "\u30A2\u30ED\u30FC"
   waitTime: 2
   damage: 15
@@ -48061,7 +48061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1ad64b150016c4e88d9ecd786c1c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: e7fd71caa2f58da45bb60a6f3227775d, type: 3}
+  sprite: {fileID: 21300000, guid: 79d0dd5617543c0418836209cf828051, type: 3}
   magicName: "\u30A2\u30B9\u30C8\u30E9\u30EB\u30CA\u30A4\u30D5"
   waitTime: 15
   damage: 40
