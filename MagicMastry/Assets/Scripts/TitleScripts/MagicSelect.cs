@@ -164,7 +164,12 @@ public class MagicSelect : MonoBehaviour {
     //テキストをその位置の魔法用に変更
     void ChangeMagicText() {
         magicText.text = magics[magicTab].data[select].magicName + "\n";
-        magicText.text += magics[magicTab].data[select].damage + "ダメージ\n";
+        //通常のダメージ表記
+        if(magics[magicTab].data[select].damage > 0) magicText.text += magics[magicTab].data[select].damage + "ダメージ\n";
+        //0ダメージの場合ダメージ不明
+        else if (magics[magicTab].data[select].damage == 0) magicText.text += "ダメージ不明\n";
+        //-1ダメージの場合補助魔法
+        else if (magics[magicTab].data[select].damage == -1) magicText.text += "補助魔法\n";
         magicText.text += "再使用" + magics[magicTab].data[select].waitTime + "秒:\n";
 
         magicComment.text = magics[magicTab].data[select].comment;

@@ -36,7 +36,9 @@ public class MagicBase : MonoBehaviour {
     }
 
     public virtual void OnTriggerEnter(Collider col) {
+        //処理が可能か
         if (!CheckActionable()) return;
+
         //ぶつかったのはブロックか
         if (col.tag == "Block") pView.RPC("Final", PhotonTargets.AllViaServer);
         //敵にぶつかった

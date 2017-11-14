@@ -57,6 +57,13 @@ public class WeakMagicList : MonoBehaviour {
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
+            //ライトニングステップ
+            case 101:
+                magic.action = () => {
+                    GameObject obj = CreateMagic("Magic/LightningStep", magic, pBase);
+                    obj.GetComponent<MagicBase>().Initialize(pBase);
+                };
+                break;
             //エラー
             default:
                 print("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRROOOOR");
@@ -68,13 +75,9 @@ public class WeakMagicList : MonoBehaviour {
 
     //魔法を生成し基礎情報を登録後PhotonViewを返す
     static GameObject CreateMagic(string path, PlayerState.Magic magic, PlayerBase pBase) {
-        //GameObject res = Resources.Load(path) as GameObject;
-        //GameObject obj = Instantiate(res, pBase.transform.position, Quaternion.identity) as GameObject;
 
         GameObject obj = PhotonNetwork.Instantiate(path, pBase.transform.position, Quaternion.identity, 0);
 
-        //最終処理までの猶予を定める
-        //Destroy(obj, obj.GetComponent<MagicBase>().destroyTime * pBase.destroyMag);
         //クールタイムを設ける
         magic.waitTime = magic.waitTimeMax = obj.GetComponent<MagicBase>().waitTime * pBase.waitTimeMag;
         //ダメージ補正をかける
