@@ -32,6 +32,9 @@ public class FireBallMagic : MagicBase {
         vel.z = Mathf.Sin(angle.y) * speed * -1;
 
         r.velocity = vel;
+
+        //自身の座標を少し上げる
+        this.transform.Translate(0, 0.5f, 0);
     }
 
 

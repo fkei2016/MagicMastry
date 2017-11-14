@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TestAnim
+  m_Name: CharaAnim
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Attack
@@ -337,7 +337,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Cast
-  m_Speed: 1
+  m_Speed: 7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101302457996481336}
