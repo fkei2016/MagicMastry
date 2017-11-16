@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour {
     [System.NonSerialized]
     public bool isMatchingComplete = false; //マッチングが完了したか
     [System.NonSerialized]
-    public int matchPlayerNum = 0; //マッチングしているプレイヤーの数
-    [System.NonSerialized]
     public float gameStartTime = 3f; //ゲーム開始までの時間
 
     bool aliveSelf = true; //自身が生きているか
@@ -74,7 +72,6 @@ public class GameManager : MonoBehaviour {
         if (stream.isWriting) {
             //データの送信
             //stream.SendNext(m_color.r);
-            stream.SendNext(matchPlayerNum);
             stream.SendNext(gameStartTime);
             stream.SendNext(isGameStart);
 
@@ -82,7 +79,6 @@ public class GameManager : MonoBehaviour {
         else {
             //データの受信
             //float r = (float)stream.ReceiveNext();
-            matchPlayerNum = (int)stream.ReceiveNext();
             gameStartTime = (float)stream.ReceiveNext();
             isGameStart = (bool)stream.ReceiveNext();
         }
@@ -97,23 +93,16 @@ public class GameManager : MonoBehaviour {
             if (data.playerID != -1) continue;
             //プレイヤーIDの登録
             data.playerID = id;
-            //マッチングしているプレイヤーの人数を変更
-            MatchPlayerChange(1);
             //プレイヤーの名前を登録(仮)
             data.name = name;
             break;
         }
     }
 
-    //現在のマッチング人数の変動
-    public void MatchPlayerChange(int n) {
-        matchPlayerNum += n;
-    }
-
 
     //プレイヤーが4人マッチングしたか
     void MatchingComplete() {
-        if (matchPlayerNum != 4 || isMatchingComplete) return;
+        if (PhotonNetwork.playerList.Length != 4 || isMatchingComplete) return;
         isMatchingComplete = true;
         //最前プレイヤーが処理を行う
         if (joinPlayerData[0].playerID != PhotonNetwork.player.ID) return;

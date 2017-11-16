@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour {
 
     PlayerBase pBase; //プレイヤーの基礎クラス
-    PhotonView pView;
     Animator anim;
 
     // Use this for initialization
     void Awake () {
         pBase = this.GetComponent<PlayerBase>();
-        pView = this.GetComponent<PhotonView>();
         anim = this.GetComponent<Animator>();
 	}
 	
@@ -53,16 +51,6 @@ public class PlayerAttack : MonoBehaviour {
             pBase.magicData.magic4.action.Invoke();
             //攻撃トリガー
             anim.SetTrigger("Attack");
-        }
-    }
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.isWriting) {
-
-
-        }
-        else {
-
         }
     }
 

@@ -15,7 +15,7 @@ public class MatchPlayerText : TextBase {
 	// Update is called once per frame
 	void Update () {
         //プレイヤー人数の表示
-        text.text = "MatchPlayer " + gmScript.matchPlayerNum.ToString() + "/4";
+        text.text = "MatchPlayer " + PhotonNetwork.playerList.Length + "/4";
         if (gmScript.isGameStart) Destroy(this.gameObject);
 	}
 

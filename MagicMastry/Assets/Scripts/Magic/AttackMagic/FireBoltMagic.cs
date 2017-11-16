@@ -24,7 +24,7 @@ public class FireBoltMagic : MagicBase {
         r.velocity = vel;
 
         //自身の座標を少し上げる
-        this.transform.Translate(0, 0.5f, 0);
+        this.transform.Translate(0, 1.5f, 0);
 
     }
 
