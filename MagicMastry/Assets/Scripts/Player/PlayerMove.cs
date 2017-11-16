@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour {
 
     PlayerBase pBase; //プレイヤーの基礎クラス
-    PhotonView pView;
     Animator anim; 
 
 	// Use this for initialization
 	void Start () {
         pBase = this.GetComponent<PlayerBase>();
-        pView = this.GetComponent<PhotonView>();
         anim = this.GetComponent<Animator>();
 	}
 	
@@ -55,17 +53,5 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
-
-
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.isWriting) {
-
-
-        }
-        else {
-
-        }
-    }
 
 }
