@@ -95,21 +95,32 @@ public class MagicSelect : MonoBehaviour {
 
         //カーソル上移動
         if (directionKey == 1 && oldDirectionKey != 1) {
+
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             ChangeSelect(-1);
         }
 
         //カーソル下移動
         else if (directionKey == 2 && oldDirectionKey != 2) {
+
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             ChangeSelect(1);
         }
 
         //カーソル右移動
         else if (directionKey == 3 && oldDirectionKey != 3) {
+
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             ChangeSelect(3);
         }
 
         //カーソル左移動
         else if (directionKey == 4 && oldDirectionKey != 4) {
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             ChangeSelect(-3);
         }
 
@@ -185,6 +196,8 @@ public class MagicSelect : MonoBehaviour {
             buttonY_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC1_KEY, buttonY_ID);
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("magicSet");
         }
         //a
         if (Input.GetAxisRaw("Magic2") != 0 && buttonX_ID != magics[magicTab].data[select].saveID) {
@@ -192,6 +205,8 @@ public class MagicSelect : MonoBehaviour {
             buttonX_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC2_KEY, buttonX_ID);
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("magicSet");
         }
         //d
         if (Input.GetAxisRaw("Magic3") != 0 && buttonB_ID != magics[magicTab].data[select].saveID) {
@@ -199,6 +214,8 @@ public class MagicSelect : MonoBehaviour {
             buttonB_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC3_KEY, buttonB_ID);
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("magicSet");
         }
         //s
         if (Input.GetAxisRaw("Magic4") != 0 && buttonA_ID != magics[magicTab].data[select].saveID) {
@@ -206,6 +223,8 @@ public class MagicSelect : MonoBehaviour {
             buttonA_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC4_KEY, buttonA_ID);
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("magicSet");
         }
     }
 

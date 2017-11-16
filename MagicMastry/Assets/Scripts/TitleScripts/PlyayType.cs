@@ -43,12 +43,16 @@ public class PlyayType : MonoBehaviour {
         playflag = scalingImage;
         if(Input.GetKeyDown(KeyCode.UpArrow)) {
 
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             scalingImage = true;
             end.gameObject.transform.localScale = nomalScal;
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
 
+            //音を鳴らす
+            AudioManager.Instance.PlaySE("Select_SE");
             scalingImage = false;
             play.gameObject.transform.localScale = nomalScal;
         }
@@ -59,12 +63,10 @@ public class PlyayType : MonoBehaviour {
             ScalingCange(play);
 
             if (scalingUpDownFlag) {
-
                 ScalingUpImage(play);
             }
 
             else {
-
                 ScalingDownImage(play);
             }
 

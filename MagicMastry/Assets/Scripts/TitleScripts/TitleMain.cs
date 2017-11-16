@@ -95,6 +95,8 @@ public class TitleMain : MonoBehaviour
         {
             //非表示にする
             titleImage.SetActive(false);
+            //風を切る音を鳴らす
+            AudioManager.Instance.PlaySE("Wind_SE");
             state = State.Title;
         }
 
@@ -113,8 +115,8 @@ public class TitleMain : MonoBehaviour
                     //カメラの自動回転停止
                     center.GetComponent<CameraRote>().enabled = false;
                     //iTweenを使ったカメラの移動と回転
-                    iTween.RotateTo(center, iTween.Hash("y", 0, "time", 0.4f));
-                    iTween.MoveTo(center, iTween.Hash("y", -14, "time", 0.4f, "oncomplete", "NextState", "oncompletetarget", gameObject));
+                    iTween.RotateTo(center, iTween.Hash("y", 0, "time", 1.0f));
+                    iTween.MoveTo(center, iTween.Hash("y", -14, "time", 1.0f, "oncomplete", "NextState", "oncompletetarget", gameObject));
                     iTween.RotateTo(camera.gameObject, iTween.Hash("x", 0, "islocal", true));
                 }
                 break;
@@ -127,7 +129,7 @@ public class TitleMain : MonoBehaviour
                     moveFlag = true;
                     //iTweenを使ったカメラの移動
                     iTween.RotateTo(center, iTween.Hash("y", 0, "time", 1));
-                    iTween.MoveTo(center, iTween.Hash("x", -2, "y", -14, "z", 100, "time", 2, "oncomplete", "NextState", "oncompletetarget", gameObject));
+                    iTween.MoveTo(center, iTween.Hash("x", -2, "y", -14, "z", 100, "time", 3.5, "oncomplete", "NextState", "oncompletetarget", gameObject));
                     iTween.RotateTo(camera.gameObject, iTween.Hash("y", 0, "islocal", true));
                 }
                 break;
@@ -146,6 +148,9 @@ public class TitleMain : MonoBehaviour
                     //フラグがプレイなら魔法を選択しに行く
                     if (playtype.getPlay)
                     {
+
+                        //風を切る音を鳴らす
+                        AudioManager.Instance.PlaySE("Wind_SE");
                         //選択肢を非表示に変更とPlayTypeスクリプトの実行終了
                         selectImage.SetActive(false);
                         playtype.enabled = false;
