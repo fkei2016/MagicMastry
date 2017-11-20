@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MagicBase : MonoBehaviour {
 
     public int damage; //ダメージ量
     public float destroyTime; //消滅時間
     public float waitTime; //待機時間
+    public Sprite sprite; //魔法画像
 
     //プレイヤーのPhotonView
     protected PhotonView pView;

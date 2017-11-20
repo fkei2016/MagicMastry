@@ -12,6 +12,7 @@ public class WeakMagicList : MonoBehaviour {
     //魔法を読み込む
     //1~99:攻撃魔法  100~補助魔法
     public static void LoadMagic(PlayerBase.Magic magic, int magicID, PlayerBase pBase) {
+        string path;
 
         //魔法データを取得する
         switch (magicID) {
@@ -21,46 +22,59 @@ public class WeakMagicList : MonoBehaviour {
                     GameObject obj = CreateMagic("Magic/TestMagic", magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
+                print("本来使用されない魔法を読み込みました");
                 break;
             //ファイアボルト
             case 1:
+                path = "Magic/FireBolt";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/FireBolt", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
             //アロー
             case 2:
+                path = "Magic/Arrow";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/Arrow", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
             //ライトニング
             case 3:
+                path = "Magic/LightningStrike";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/LightningStrike", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
             //ファイアボール
             case 4:
+                path = "Magic/FireBall";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/FireBall", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
             //ナイフ
             case 5:
+                path = "Magic/AstralKnife";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/AstralKnife", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
             //ライトニングステップ
             case 101:
+                path = "Magic/LightningStep";
+                SetMagicData(path, magic);
                 magic.action = () => {
-                    GameObject obj = CreateMagic("Magic/LightningStep", magic, pBase);
+                    GameObject obj = CreateMagic(path, magic, pBase);
                     obj.GetComponent<MagicBase>().Initialize(pBase);
                 };
                 break;
@@ -79,12 +93,24 @@ public class WeakMagicList : MonoBehaviour {
         GameObject obj = PhotonNetwork.Instantiate(path, pBase.transform.position, Quaternion.identity, 0);
 
         //クールタイムを設ける
-        magic.waitTime = magic.waitTimeMax = obj.GetComponent<MagicBase>().waitTime * pBase.waitTimeMag;
+        magic.waitTime = magic.waitTimeMax * pBase.waitTimeMag;
         //ダメージ補正をかける
         obj.GetComponent<MagicBase>().damage = (int)(obj.GetComponent<MagicBase>().damage * pBase.damageMag);
 
         return obj;
     }
-    
-	
+
+    //予め設定しておく項目のセット
+    static void SetMagicData(string path, PlayerState.Magic magic) {
+
+        GameObject res = Resources.Load(path) as GameObject;
+
+        //クールタイム初期値をセット
+        magic.waitTimeMax = res.GetComponent<MagicBase>().waitTime;
+        //初期
+        magic.sprite = res.GetComponent<MagicBase>().sprite;
+    }
+
+
+
 }
