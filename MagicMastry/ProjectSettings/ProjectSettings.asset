@@ -587,9 +587,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 47fc4215-962d-4687-b769-92756f512de3
+  cloudProjectId: 4b987923-fb8f-49de-81ca-df1af194d8cc
   projectName: MagicMastry
-  organizationId: kazuki0010
+  organizationId: sasamoto2016
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
