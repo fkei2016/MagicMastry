@@ -240,6 +240,7 @@ MonoBehaviour:
   damage: 40
   destroyTime: 2
   waitTime: 15
+  sprite: {fileID: 21300000, guid: 79d0dd5617543c0418836209cf828051, type: 3}
 --- !u!114 &114910555206843928
 MonoBehaviour:
   m_ObjectHideFlags: 1

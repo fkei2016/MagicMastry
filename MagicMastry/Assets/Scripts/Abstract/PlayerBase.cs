@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour {
 
@@ -24,6 +25,7 @@ public class PlayerBase : MonoBehaviour {
         public float waitTime; //待機時間
         public float waitTimeMax; //待機時間の開始時間
         public MAGIC_SLOT slot; //魔法スロット
+        public Sprite sprite; //魔法画像
     }
 
     //補正一覧
@@ -41,7 +43,7 @@ public class PlayerBase : MonoBehaviour {
     public MagicData magicData = new MagicData(); //魔法データ
 
     [System.NonSerialized]
-    int life = 100; //体力 
+    public int life = 100; //体力 
 
     [System.NonSerialized]
     bool isAlive = true; //生存しているか
@@ -65,7 +67,11 @@ public class PlayerBase : MonoBehaviour {
         anim = this.GetComponent<Animator>();
 
         //魔法データを読み込む
-        if(pView.isMine) LoadMagic();
+        if (pView.isMine) {
+            //魔法の読み込み
+            LoadMagic();
+            //UIに魔法の各データを渡す
+        }
 	}
 
     //Update

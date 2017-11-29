@@ -43,6 +43,11 @@ public class GameManager : MonoBehaviour {
     bool aliveSelf = true; //自身が生きているか
     bool backTitleTextSelf = false; //自身がタイトルに戻るためのテキストを生成したか
 
+    [SerializeField]
+    GameObject hpGauge; //HPゲージオブジェクト
+    [SerializeField]
+    GameObject cooldownGauge; //クールダウンゲージ
+
     PhotonView managerView;
 
 
@@ -164,6 +169,9 @@ public class GameManager : MonoBehaviour {
         //付属のカメラをアクティブに変えMainCameraに
         obj.transform.Find("Camera").gameObject.SetActive(true);
         obj.transform.Find("Camera").tag = "MainCamera";
+        //HPゲージ・クールダウンゲージをアクティブ化させる
+        hpGauge.GetComponent<HPGauge>().ActiveSelf(obj.GetComponent<PlayerBase>());
+        cooldownGauge.GetComponent<CooldownGauge>().ActiveSelf(obj.GetComponent<PlayerBase>());
     }
 
 

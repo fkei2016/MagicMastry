@@ -315,6 +315,7 @@ MonoBehaviour:
   damage: 15
   destroyTime: 5
   waitTime: 2
+  sprite: {fileID: 21300000, guid: b1b13a73109f02841b1a1d9e29b85beb, type: 3}
   hit: {fileID: 1730679424795206, guid: 19b93e8c5552a0c42a59e48aee98570f, type: 2}
 --- !u!114 &114898209348074610
 MonoBehaviour:
