@@ -70,7 +70,7 @@ public class PlayerBase : MonoBehaviour {
         if (pView.isMine) {
             //魔法の読み込み
             LoadMagic();
-            //UIに魔法の各データを渡す
+            
         }
 	}
 
@@ -84,17 +84,28 @@ public class PlayerBase : MonoBehaviour {
 
 
 	
-	//前進
-    public void Advance(float mag) {
+	/// <summary>
+    /// 前進する
+    /// </summary>
+    /// <param name="mag">速度補正</param>
+    /// <param name="addDegree">角度補正 = 0</param>
+    /// <param name="add">求めた速度を追加にするか(falseは上書き) = false</param>
+
+    public void Advance(float mag, float addDegree = 0, bool add = false) {
         //角度を取得
         Vector3 angle = this.transform.rotation.eulerAngles * Mathf.Deg2Rad;
+        addDegree = addDegree * Mathf.Deg2Rad;
         //速度を求める
         Vector3 vel;
-        vel.x = Mathf.Cos(angle.y) * moveSpeed * mag;
+        vel.x = Mathf.Cos(angle.y + addDegree) * moveSpeed * mag;
         vel.y = rigid.velocity.y;
-        vel.z = Mathf.Sin(angle.y) * moveSpeed * (mag * -1);
+        vel.z = Mathf.Sin(angle.y + addDegree) * moveSpeed * (mag * -1);
 
-        rigid.velocity = vel;
+        if (add == false) rigid.velocity = vel;
+        else {
+            vel.y = 0;
+            rigid.velocity += vel;
+        }
     }
 
     //速度停止

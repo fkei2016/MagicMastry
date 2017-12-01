@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour {
     GameObject hpGauge; //HPゲージオブジェクト
     [SerializeField]
     GameObject cooldownGauge; //クールダウンゲージ
+    [SerializeField]
+    Vector3 centerPoint; //中心点
 
     PhotonView managerView;
 
@@ -88,6 +90,13 @@ public class GameManager : MonoBehaviour {
             isGameStart = (bool)stream.ReceiveNext();
         }
     }
+
+
+    //////////////////////
+    //以下通常関数////////
+    //////////////////////
+
+
 
     //プレイヤーデータ登録
     //p1:プレイヤーid
@@ -172,6 +181,11 @@ public class GameManager : MonoBehaviour {
         //HPゲージ・クールダウンゲージをアクティブ化させる
         hpGauge.GetComponent<HPGauge>().ActiveSelf(obj.GetComponent<PlayerBase>());
         cooldownGauge.GetComponent<CooldownGauge>().ActiveSelf(obj.GetComponent<PlayerBase>());
+
+        //中心点に向く
+        obj.transform.LookAt(new Vector3(centerPoint.x, obj.transform.position.y, centerPoint.z));
+        obj.transform.Rotate(0, -90f, 0);
+
     }
 
 

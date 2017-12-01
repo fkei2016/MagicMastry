@@ -56925,6 +56925,7 @@ MonoBehaviour:
     rot: {x: 44.6, y: 90, z: 0}
   hpGauge: {fileID: 265164784}
   cooldownGauge: {fileID: 1951263417}
+  centerPoint: {x: -5, y: -15, z: 55}
 --- !u!4 &1878699433
 Transform:
   m_ObjectHideFlags: 0
