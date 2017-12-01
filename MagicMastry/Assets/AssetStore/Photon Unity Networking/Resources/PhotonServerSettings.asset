@@ -54,4 +54,5 @@ MonoBehaviour:
   - DeadPlayer
   - PreDeadPlayer
   - mes
+  - EntryJoinPlayerDataCall
   DisableAutoOpenWizard: 1

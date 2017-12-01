@@ -28,13 +28,13 @@ public class MagicSelect : MonoBehaviour {
     private Image cursor;
 
     [SerializeField]
-    private Image ButtonA; //s
+    private Image buttonA; //s
     [SerializeField]
-    private Image ButtonB; //d
+    private Image buttonB; //d
     [SerializeField]
-    private Image ButtonX; //a
+    private Image buttonX; //a
     [SerializeField]
-    private Image ButtonY; //w
+    private Image buttonY; //w
     int buttonA_ID; //s
     int buttonB_ID; //d
     int buttonX_ID; //a
@@ -55,7 +55,8 @@ public class MagicSelect : MonoBehaviour {
         ActiveCurrentMagicTab();
         //魔法テキストを変更
         ChangeMagicText();
-
+        //初期から選択されている魔法を表示
+        DisplayInitialMagic();
     }
 	
 	// Update is called once per frame
@@ -191,8 +192,8 @@ public class MagicSelect : MonoBehaviour {
     void SetMagic() {
         //技決定
         //w
-        if (Input.GetAxisRaw("Magic1") != 0 && buttonY_ID != magics[magicTab].data[select].saveID) {
-            ButtonY.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+        if (Input.GetAxisRaw("Magic1") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+            buttonY.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonY_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC1_KEY, buttonY_ID);
@@ -200,8 +201,8 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //a
-        if (Input.GetAxisRaw("Magic2") != 0 && buttonX_ID != magics[magicTab].data[select].saveID) {
-            ButtonX.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+        if (Input.GetAxisRaw("Magic2") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+            buttonX.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonX_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC2_KEY, buttonX_ID);
@@ -209,8 +210,8 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //d
-        if (Input.GetAxisRaw("Magic3") != 0 && buttonB_ID != magics[magicTab].data[select].saveID) {
-            ButtonB.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+        if (Input.GetAxisRaw("Magic3") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+            buttonB.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonB_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC3_KEY, buttonB_ID);
@@ -218,14 +219,76 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //s
-        if (Input.GetAxisRaw("Magic4") != 0 && buttonA_ID != magics[magicTab].data[select].saveID) {
-            ButtonA.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
+        if (Input.GetAxisRaw("Magic4") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+            buttonA.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonA_ID = magics[magicTab].data[select].saveID;
             //技のセット
             PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC4_KEY, buttonA_ID);
             //音を鳴らす
             AudioManager.Instance.PlaySE("magicSet");
         }
+    }
+
+
+    //初期から選択されている魔法を表示
+    void DisplayInitialMagic() {
+        //魔法が存在していないならこの場で決めさせる
+        //w
+        if (PlayerPrefs.HasKey(SaveDataKey.PLAYER_MAGIC1_KEY) == false) {
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC1_KEY, 1);
+        }
+        //a
+        if (PlayerPrefs.HasKey(SaveDataKey.PLAYER_MAGIC2_KEY) == false) {
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC2_KEY, 2);
+        }
+        //d
+        if (PlayerPrefs.HasKey(SaveDataKey.PLAYER_MAGIC3_KEY) == false) {
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 3);
+        }
+        //s
+        if (PlayerPrefs.HasKey(SaveDataKey.PLAYER_MAGIC4_KEY) == false) {
+            PlayerPrefs.SetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 4);
+        }
+
+        //各魔法の表示
+        //w
+        buttonY.sprite = GetMatchIDSprite(PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC1_KEY, 1));
+        buttonY_ID = PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC1_KEY, 1);
+        //a
+        buttonX.sprite = GetMatchIDSprite(PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC2_KEY, 1));
+        buttonX_ID = PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC2_KEY, 1);
+        //d
+        buttonB.sprite = GetMatchIDSprite(PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 1));
+        buttonB_ID = PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC3_KEY, 1);
+        //s
+        buttonA.sprite = GetMatchIDSprite(PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 1));
+        buttonA_ID = PlayerPrefs.GetInt(SaveDataKey.PLAYER_MAGIC4_KEY, 1);
+    }
+
+
+    //一致するIDのスプライトを返す
+    Sprite GetMatchIDSprite(int id) {
+        foreach (MagicData magic in magics) {
+            foreach (SelectMagicData data in magic.data) {
+                //IDが一致するものを探す
+                if (id == data.saveID) return data.sprite;
+                continue;
+            }
+        }
+        //nullを返す
+        return null;
+    }
+
+
+    //ID被りがないか
+    bool CheckMagicID(int id) {
+        //以下一つもかぶっていなければ実行を許可する
+        if (id == buttonY_ID) return false;
+        if (id == buttonX_ID) return false;
+        if (id == buttonA_ID) return false;
+        if (id == buttonB_ID) return false;
+
+        return true;
     }
 
 }

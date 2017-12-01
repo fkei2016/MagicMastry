@@ -29,7 +29,8 @@ public class PlayerMove : MonoBehaviour {
     void Move() {
 
         //前進キーが押されているか
-        if (Input.GetAxisRaw("Vertical") != 0) {
+        if (Input.GetAxisRaw("Vertical") != 0) { 
+
             //向いている方向に前進
             pBase.Advance(Input.GetAxisRaw("Vertical") * pBase.speedMag);
             //移動中に
@@ -46,10 +47,25 @@ public class PlayerMove : MonoBehaviour {
 
     //方向転換
     void Turnaround() {
+
         //転換キーが押されているか
         if (Input.GetAxisRaw("Horizontal") != 0) {
+            //Shift&右が押されているか
+            if (Input.GetAxisRaw("Shift") != 0 && Input.GetAxisRaw("Horizontal") > 0) {
+                //横移動
+                pBase.Advance(Input.GetAxisRaw("Horizontal") * pBase.speedMag, 90f, true);
+                //移動中に
+                anim.SetBool("IsWalking", true);
+            }
+            //Shift&左が押されているか
+            else if (Input.GetAxisRaw("Shift") != 0 && Input.GetAxisRaw("Horizontal") < 0) {
+                //横移動
+                pBase.Advance(Input.GetAxisRaw("Horizontal") * pBase.speedMag, 90f, true);
+                //移動中に
+                anim.SetBool("IsWalking", true); 
+            }
             //方向転換
-            pBase.Turnaround(Input.GetAxisRaw("Horizontal"));
+            else pBase.Turnaround(Input.GetAxisRaw("Horizontal"));
         }
     }
 
