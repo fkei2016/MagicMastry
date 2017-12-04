@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour {
             data.playerID = id;
             //プレイヤーの名前を登録(仮)
             data.name = name;
+            print(id + "番 名前:" + name + "を登録しました");
             break;
         }
     }
@@ -119,13 +120,7 @@ public class GameManager : MonoBehaviour {
         if (PhotonNetwork.playerList.Length != 4 || isMatchingComplete) return;
         isMatchingComplete = true;
         //最前プレイヤーが処理を行う
-        if (joinPlayerData[0].playerID != PhotonNetwork.player.ID) return;
-#if UNITY_EDITOR
-        print("プレイヤー1番" + joinPlayerData[0].playerID);
-        print("プレイヤー2番" + joinPlayerData[1].playerID);
-        print("プレイヤー3番" + joinPlayerData[2].playerID);
-        print("プレイヤー4番" + joinPlayerData[3].playerID);
-#endif
+        if (!PhotonNetwork.isMasterClient) return;
         //ログイン不可に
         PhotonNetwork.room.IsOpen = false;
         //カウントダウンテキストを生成

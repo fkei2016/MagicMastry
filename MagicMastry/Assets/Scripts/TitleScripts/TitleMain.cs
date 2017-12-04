@@ -91,17 +91,9 @@ public class TitleMain : MonoBehaviour
 
 
         //スペースキーでセレクトモードへ
-        if (state == State.stop && Input.GetAxisRaw("Space") != 0)
-        {
-            //非表示にする
-            titleImage.SetActive(false);
-            //風を切る音を鳴らす
-            AudioManager.Instance.PlaySE("Wind_SE");
-            state = State.Title;
-        }
+        if (state == State.stop && Input.GetAxisRaw("Space") != 0) ChangeTitleState(State.Title);
 
-        switch (state)
-        {
+        switch (state){
 
             case State.stop:
                 break;
@@ -143,11 +135,9 @@ public class TitleMain : MonoBehaviour
                     playtype.enabled = true;
                 }
                 //スペースキーで選択しているシーンに移動
-                if (Input.GetAxisRaw("Space") != 0)
-                {
+                if (Input.GetAxisRaw("Space") != 0){
                     //フラグがプレイなら魔法を選択しに行く
-                    if (playtype.getPlay)
-                    {
+                    if (playtype.getPlay){
 
                         //風を切る音を鳴らす
                         AudioManager.Instance.PlaySE("Wind_SE");
@@ -187,7 +177,7 @@ public class TitleMain : MonoBehaviour
                 //ゲームを開始させる
                 if(Input.GetAxisRaw("Space") != 0)
                 {
-                    ChangeNameSetScene();
+                    ChangeTitleState(State.NameSet);
                 }
 
                 //一つ前に戻る
@@ -210,24 +200,12 @@ public class TitleMain : MonoBehaviour
     }
 
 
-    void NextState()
-    {
-        state = state + 1;
+    //次のステートに移動
+    void NextState(){
+        ChangeTitleState(state + 1);
         moveFlag = false;
     }
 
-
-    //名前設定シーンに移動
-    void ChangeNameSetScene() {
-        //選択肢を非表示に変更とPlayTypeスクリプトの実行終了
-        magicImage.SetActive(false);
-        nameSetScene.SetActive(true);
-        magicSelect.enabled = false;
-        state = State.NameSet;
-
-        ec = new EnterChecker();
-        inputField.ActivateInputField();
-    }
 
 
     //名前を決定させたか
@@ -240,6 +218,36 @@ public class TitleMain : MonoBehaviour
             SceneManager.LoadScene("Game");
         }
     }
+
+    
+    /// <summary>
+    /// タイトルステートの変更 + 変更後の処理
+    /// </summary>
+    /// <param name="ts">変更するステート</param>
+    void ChangeTitleState(State ts) {
+        //ステートを変更
+        state = ts;
+        //変更したステートに応じて処理を変える
+        switch (state) {
+            case State.Title:
+                //非表示にする
+                titleImage.SetActive(false);
+                //風を切る音を鳴らす
+                AudioManager.Instance.PlaySE("Wind_SE");
+                break;
+            case State.NameSet:
+                //選択肢を非表示に変更とPlayTypeスクリプトの実行終了
+                magicImage.SetActive(false);
+                nameSetScene.SetActive(true);
+                magicSelect.enabled = false;
+
+                ec = new EnterChecker();
+                inputField.ActivateInputField();
+                break;
+        }
+    }
+
+
 
 
 #if UNITY_EDITOR
