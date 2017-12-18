@@ -158,6 +158,8 @@ public class GameManager : MonoBehaviour {
     //キャラを生成する
     [PunRPC]
     void CreatePlayer() {
+        string player_name = "";
+
         //旧カメラを消去
         Destroy(Camera.main.gameObject);
         //自身がどの場所で生成されるか取得
@@ -166,6 +168,7 @@ public class GameManager : MonoBehaviour {
             if (PhotonNetwork.player.ID != data.playerID) continue;
             //IDが一致しているなら
             respawn = data.respawnPoint;
+            player_name = data.name;
             break;
         }
         //生成
@@ -180,6 +183,15 @@ public class GameManager : MonoBehaviour {
         //中心点に向く
         obj.transform.LookAt(new Vector3(centerPoint.x, obj.transform.position.y, centerPoint.z));
         obj.transform.Rotate(0, -90f, 0);
+
+        ////UI生成
+
+        //GameObject obj2 = PhotonNetwork.Instantiate("GameSystem/BillboardUI", respawn.transform.position, Quaternion.identity, 0);
+        //BillboardUI ui = obj2.GetComponent<BillboardUI>();
+
+        ////親の指定
+        //ui.setParent(obj);
+
 
     }
 
