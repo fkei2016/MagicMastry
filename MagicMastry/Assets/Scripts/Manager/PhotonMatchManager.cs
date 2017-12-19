@@ -6,7 +6,7 @@ public class PhotonMatchManager : MonoBehaviour {
 
     void Awake() {
         // ランダムにRoom参加
-        PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();
     }
 
 
@@ -16,12 +16,6 @@ public class PhotonMatchManager : MonoBehaviour {
 #if UNITY_EDITOR
         Debug.Log("Room参加失敗！");
 #endif
-        // 名前なし4人Room作成
-        RoomOptions room = new RoomOptions();
-        room.IsVisible = true;
-        room.IsOpen = true;
-        room.MaxPlayers = 4;
-        PhotonNetwork.CreateRoom(null, room, null);
     }
 
     // Room参加OK時

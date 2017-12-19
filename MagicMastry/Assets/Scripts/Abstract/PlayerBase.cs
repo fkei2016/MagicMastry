@@ -46,7 +46,7 @@ public class PlayerBase : MonoBehaviour {
     public int life = 100; //体力 
 
     [System.NonSerialized]
-    bool isAlive = true; //生存しているか
+    public bool isAlive = true; //生存しているか
 
     PhotonView pView; //プレイヤーのView
 

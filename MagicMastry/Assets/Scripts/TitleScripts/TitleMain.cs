@@ -51,10 +51,14 @@ public class TitleMain : MonoBehaviour
     private GameObject magicImage;
 
     [SerializeField]
-    GameObject nameSetScene; //プレイヤーの名前を決めるシーン
+    GameObject nameSetState; //プレイヤーの名前を決めるシーン
 
     [SerializeField]
     InputField inputField; //名前入力フィールド
+
+    [SerializeField]
+    GameObject RoomSelectState; //ルーム選択状態
+
 
     private PlyayType playtype;
 
@@ -71,6 +75,7 @@ public class TitleMain : MonoBehaviour
         MagicSelect,
         MagicSelectOne,
         NameSet,
+        RoomSelect,
     }
 
     State state = State.stop;
@@ -192,7 +197,7 @@ public class TitleMain : MonoBehaviour
 
             //名前設定時
             case State.NameSet:
-                //名前を決定したらマップへ
+                //名前を決定したか
                 CheckDecideName();
                 break;
             
@@ -215,7 +220,9 @@ public class TitleMain : MonoBehaviour
             //名前をセーブ
             if (inputField.text == "") inputField.text = "名無しさん" + Random.Range(0,100).ToString();
             PlayerPrefs.SetString(SaveDataKey.PLAYER_NAME_KEY, inputField.text);
-            SceneManager.LoadScene("Game");
+            //ルームセレクトステートへ
+            ChangeTitleState(State.RoomSelect);
+            //SceneManager.LoadScene("Game");
         }
     }
 
@@ -238,11 +245,16 @@ public class TitleMain : MonoBehaviour
             case State.NameSet:
                 //選択肢を非表示に変更とPlayTypeスクリプトの実行終了
                 magicImage.SetActive(false);
-                nameSetScene.SetActive(true);
+                nameSetState.SetActive(true);
                 magicSelect.enabled = false;
 
                 ec = new EnterChecker();
                 inputField.ActivateInputField();
+                break;
+            case State.RoomSelect:
+                inputField.gameObject.SetActive(false);
+                nameSetState.SetActive(false);
+                RoomSelectState.SetActive(true);
                 break;
         }
     }

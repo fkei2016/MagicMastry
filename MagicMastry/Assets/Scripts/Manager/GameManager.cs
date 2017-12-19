@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
         [System.NonSerialized]
         public bool isCPU = false; //CPUか
         [System.NonSerialized]
-        public bool alive = true; //生きているか
+        public bool alive = false; //生きているか
         [System.NonSerialized]
         public string name = ""; //名前
     }
@@ -92,9 +92,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    //////////////////////
-    //以下通常関数////////
-    //////////////////////
+    /////////////////////////////
+    //以下通常関数//////////////
+    ////////////////////////////
 
 
 
@@ -110,14 +110,19 @@ public class GameManager : MonoBehaviour {
             //プレイヤーの名前を登録(仮)
             data.name = name;
             print(id + "番 名前:" + name + "を登録しました");
+            //生きている状態に
+            data.alive = true;
             break;
         }
     }
 
 
-    //プレイヤーが4人マッチングしたか
+    //部屋が埋まったか
     void MatchingComplete() {
-        if (PhotonNetwork.playerList.Length != 4 || isMatchingComplete) return;
+        //まずルームに参加しているか
+        if (!PhotonNetwork.inRoom) return;
+        //全員参加して且つまだ処理を行っていないか
+        if (PhotonNetwork.playerList.Length != PhotonNetwork.room.MaxPlayers || isMatchingComplete) return;
         isMatchingComplete = true;
         //最前プレイヤーが処理を行う
         if (!PhotonNetwork.isMasterClient) return;
@@ -153,13 +158,15 @@ public class GameManager : MonoBehaviour {
         isGameStart = true;
         //プレイヤー生成
         managerView.RPC("CreatePlayer", PhotonTargets.AllViaServer);
+
+        yield return new WaitForSeconds(0.1f);
+
+
     }
 
-    //キャラを生成する
+    //各プレイヤーに必要なものを生成する
     [PunRPC]
     void CreatePlayer() {
-        string player_name = "";
-
         //旧カメラを消去
         Destroy(Camera.main.gameObject);
         //自身がどの場所で生成されるか取得
@@ -168,9 +175,19 @@ public class GameManager : MonoBehaviour {
             if (PhotonNetwork.player.ID != data.playerID) continue;
             //IDが一致しているなら
             respawn = data.respawnPoint;
-            player_name = data.name;
             break;
         }
+        //プレイヤーの生成
+        GameObject obj = PhotonInstancePlayer(respawn);
+
+        //名前テキストの生成
+        PhotonInstanceName(obj);
+
+    }
+
+
+    //プレイヤーの生成
+    GameObject PhotonInstancePlayer(GameObject respawn) {
         //生成
         GameObject obj = PhotonNetwork.Instantiate("Player/Player", respawn.transform.position, Quaternion.identity, 0);
         //付属のカメラをアクティブに変えMainCameraに
@@ -184,16 +201,38 @@ public class GameManager : MonoBehaviour {
         obj.transform.LookAt(new Vector3(centerPoint.x, obj.transform.position.y, centerPoint.z));
         obj.transform.Rotate(0, -90f, 0);
 
-        ////UI生成
-
-        //GameObject obj2 = PhotonNetwork.Instantiate("GameSystem/BillboardUI", respawn.transform.position, Quaternion.identity, 0);
-        //BillboardUI ui = obj2.GetComponent<BillboardUI>();
-
-        ////親の指定
-        //ui.setParent(obj);
-
-
+        //オブジェクトを返す
+        return obj;
     }
+
+
+    //名前テキストメッシュの生成
+    void PhotonInstanceName(GameObject obj) {
+        GameObject name = PhotonNetwork.Instantiate("GameSystem/PlayerName", this.transform.position,  Quaternion.identity, 0);
+        NameTextMesh ntm = name.GetComponent<NameTextMesh>();
+        ntm.tName = PlayerPrefs.GetString(SaveDataKey.PLAYER_NAME_KEY, "Nuller");
+        ntm.ownerPlayer = obj;
+        TextMesh tm = name.GetComponent<TextMesh>();
+        //自身の名前は見えなくてよい
+        tm.GetComponent<MeshRenderer>().enabled = false;
+        //sign.transform.rotation = Camera.main.transform.rotation; // Causes the text faces camera.
+        
+    }
+
+
+    //Canvasに登録しないといけないUIを登録
+    void EntryCanvas() {
+        //特定タグのUIをすべて取得
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("EntryCanvasUI")) {
+            //Canvasに登録
+            obj.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+            //角度を修正
+            obj.GetComponent<RectTransform>().localRotation = Quaternion.Euler(Vector3.zero);
+            //スケールを修正
+            obj.GetComponent<RectTransform>().localScale = Vector3.one;
+        }
+    }
+
 
 
     //PlayerIDの生存情報をfalseにするための準備
@@ -218,8 +257,11 @@ public class GameManager : MonoBehaviour {
             //同じなら死亡判定
             data.alive = false;
             //消去
-            GameObject obj = PhotonView.Find(vID).gameObject;
-            Destroy(obj.gameObject);
+            if (PhotonView.Find(vID) != null) {
+                GameObject obj = PhotonView.Find(vID).gameObject;
+                Destroy(obj.gameObject);
+            }
+
             break;
         }
     }
@@ -254,7 +296,7 @@ public class GameManager : MonoBehaviour {
     //ゲームの勝利者が確定したか
     void ConfirmWinner() {
         //ゲームが開始前ないし終了済みなら処理しない
-        if (isGameEnd || isGameStart == false) return;
+        if (isGameEnd || !isGameStart) return;
         //残り人数が一人か
         if (GetAlivePlayer() != 1) return;
 
