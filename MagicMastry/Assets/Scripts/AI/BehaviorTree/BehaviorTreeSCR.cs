@@ -7,6 +7,11 @@ public class BehaviorTreeSCR : BehaviorTreeNodeSCR
     [SerializeField]
     protected BehaviorTreeNodeSCR m_nodeSCR;
 
+    public void SetNode(BehaviorTreeNodeSCR node)
+    {
+        m_nodeSCR = node;
+    }
+
     private void Start()
     {
         // サブジェクトのオブザーバーを設定する.

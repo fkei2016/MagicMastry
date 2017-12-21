@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class TerminalSCR : MonoBehaviour
 {
+    [SerializeField]
+    GameObject m_myself;
+
+    public GameObject GetMyself()
+    {
+        return m_myself;
+    }
+
     /*------------------------------------------------------*/
     // 追跡.
     /*------------------------------------------------------*/
@@ -17,11 +25,11 @@ public class TerminalSCR : MonoBehaviour
      */
     public GameObject GetTarget()
     {
-        GameObject result;
-        result = m_target;
-        m_target = null;
+        //GameObject result;
+        //result = m_target;
+        //m_target = null;
 
-        return result;
+        return m_target;
     }
     /**
      * @brief 追跡対象を設定する

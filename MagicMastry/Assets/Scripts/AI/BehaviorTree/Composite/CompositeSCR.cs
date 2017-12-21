@@ -6,7 +6,17 @@ public class CompositeSCR : BehaviorTreeNodeSCR
 {
     // "NodeSCR"の動的配列.
     [SerializeField]
-    protected BehaviorTreeNodeSCR[] m_nodeSCRList;
+    //protected BehaviorTreeNodeSCR[] m_nodeSCRList;
+    protected List<BehaviorTreeNodeSCR> m_nodeSCRList;
+
+
+    public void AddNode(BehaviorTreeNodeSCR node)
+    {
+        m_nodeSCRList.Add(node);
+    }
+
+
+
     // 選択中のノード.
     protected BehaviorTreeNodeSCR m_currentNodeSCR;
     // 選択中のノードの番号.
@@ -15,8 +25,11 @@ public class CompositeSCR : BehaviorTreeNodeSCR
     void Awake()
     {
         // オブザーバパターン用の初期設定を行う.
-        for (int i = 0; i < m_nodeSCRList.Length; i++)
-            m_nodeSCRList[i].Attach(this);
+        foreach(BehaviorTreeNodeSCR node in m_nodeSCRList)
+            node.Attach(this);
+
+        //for (int i = 0; i < m_nodeSCRList.Length; i++)
+        //    m_nodeSCRList[i].Attach(this);
     }
     /**
      * @brief 初期化

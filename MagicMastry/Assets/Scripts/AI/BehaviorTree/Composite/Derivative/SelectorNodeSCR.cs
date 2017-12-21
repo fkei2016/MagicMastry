@@ -28,7 +28,7 @@ public class SelectorNodeSCR : CompositeSCR
         m_currentNodeSCRNumber++;
 
         // 2.1.ノードが存在しない場合->オブザーバーの実行.
-        if (m_currentNodeSCRNumber >= m_nodeSCRList.Length)
+        if (m_currentNodeSCRNumber >= m_nodeSCRList.Count)
         {
             Notify(error);
         }
