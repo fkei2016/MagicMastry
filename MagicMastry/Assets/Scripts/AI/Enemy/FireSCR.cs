@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackSCR : BehaviorTreeNodeSCR
+public class FireSCR : BehaviorTreeNodeSCR
 {
     // データの中継地点.
     [SerializeField]
@@ -45,68 +45,47 @@ public class AttackSCR : BehaviorTreeNodeSCR
 
         // 4.視界に居る場合→攻撃する.
         if (range < m_sensorRange)
+        {
             Fire();
-
-        // 5.終了する.
-        Notify();
+        }
+        else
+        {
+            // 5.終了する.
+            Notify(-1);
+        }
     }
-
 
     private void Fire()
     {
+        // 1.相手を見る.
         m_myself.transform.LookAt(m_targetObject.transform.position);
-        print("fire");
 
-
-
+        // 2.座標を設定する.
         Vector3 startPos;
         startPos = m_myself.transform.position;
         Vector3 endPos;
         endPos = m_targetObject.transform.position;
 
+        // 3.レイを飛ばす.
         Ray ray;
         ray = new Ray(startPos, endPos - startPos);
 
-
-
-
-
-
-
-
+        // 4.衝突を確認する.
         RaycastHit hit = new RaycastHit();
+        if (!Physics.Raycast(ray, out hit))
+            Notify(-1);
 
-        if (Physics.Raycast(ray, out hit))
+        // 5.ターゲットと衝突する場合.
+        if (hit.collider.gameObject == m_targetObject)
         {
-            if (hit.collider.gameObject == m_targetObject)
-            {
-                print("fire!!");
-
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1.0f);
-            }
-
-            else
-            {
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue, 1.0f);
-
-
-            }
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1.0f);
+            Notify();
         }
-
-
-
-
-
-
-
-
-        // 攻撃可能な場合→攻撃する.
-    }
-
-
-    public override void DoAction()
-    {
-        Fire();
-        Notify();
+        // 6.ターゲットと衝突しない場合.
+        else
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.blue, 1.0f);
+            Notify(-1);
+        }       
     }
 }
