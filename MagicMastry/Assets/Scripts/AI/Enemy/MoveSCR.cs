@@ -26,7 +26,7 @@ public class MoveSCR : BehaviorTreeNodeSCR
     // 移動速度.
     /*---------------------------------------------------------------------------------*/
     // 移動速度.
-    private float m_moveSpeed = 50.0f;
+    private float m_moveSpeed = 5.0f;
 
     /**
     * @brief 移動速度を設定する
@@ -92,8 +92,8 @@ public class MoveSCR : BehaviorTreeNodeSCR
 
 
 
-
-
+    [SerializeField]
+    protected Animator m_animator;
 
 
 
@@ -137,6 +137,14 @@ public class MoveSCR : BehaviorTreeNodeSCR
         Transform transform = m_currentPointSCR.gameObject.transform;
         Vector3 position = transform.GetChild((int)pos).position;
         m_destination = position;
+
+
+        /*----------------------------------*/
+        // 移動開始.
+        m_animator.SetBool("IsWalking", true);
+        /*----------------------------------*/
+
+
     }
 
     /**
@@ -428,7 +436,13 @@ public class MoveSCR : BehaviorTreeNodeSCR
                 m_midelePointNumber = m_destinationPointNumber;
             // 2.到着した.
             else
+            {
+                /*----------------------------------*/
+                // 移動開始.
+                m_animator.SetBool("IsWalking", false);
+                /*----------------------------------*/
                 return true;
+            }
         }
         // ここに来るのは、ありえない！！
         return false;

@@ -79,6 +79,15 @@ public class FireSCR : BehaviorTreeNodeSCR
         if (hit.collider.gameObject == m_targetObject)
         {
             Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1.0f);
+
+
+            /*---------------------------*/
+            // 攻撃する.
+            m_enemyAttackSCR.DoAction();
+            /*---------------------------*/
+
+
+
             Notify();
         }
         // 6.ターゲットと衝突しない場合.
@@ -88,4 +97,9 @@ public class FireSCR : BehaviorTreeNodeSCR
             Notify(-1);
         }       
     }
+
+    [SerializeField]
+    private EnemyAttackSCR m_enemyAttackSCR;
+
+
 }
