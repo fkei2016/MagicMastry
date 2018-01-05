@@ -88,11 +88,7 @@ public class TitleMain : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-        //デバッグワープ
-        if (Input.GetKeyDown(KeyCode.F1)) SceneManager.LoadScene("Game");
+    void Update(){
 
 
         //スペースキーでセレクトモードへ
