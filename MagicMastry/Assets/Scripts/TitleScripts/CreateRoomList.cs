@@ -67,7 +67,7 @@ public class CreateRoomList : MonoBehaviour {
             //ルームの名前をセット
             data.roomName.text = room.Name;
             //ルームのコメントをセット
-            if (room.CustomProperties["コメント"].ToString() != "") data.comment.text = room.CustomProperties["コメント"].ToString();
+            if (room.CustomProperties["コメント"] != null && room.CustomProperties["コメント"].ToString() != "") data.comment.text = room.CustomProperties["コメント"].ToString();
             else data.comment.text = "";
             //人数をセット
             data.person.text = room.PlayerCount.ToString() + "/" + room.MaxPlayers.ToString();

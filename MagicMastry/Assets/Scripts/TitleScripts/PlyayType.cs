@@ -41,7 +41,7 @@ public class PlyayType : MonoBehaviour {
 	void Update () {
 
         playflag = scalingImage;
-        if(Input.GetKeyDown(KeyCode.UpArrow)) {
+        if(Input.GetAxisRaw("Vertical") > 0) {
 
             //音を鳴らす
             AudioManager.Instance.PlaySE("Select_SE");
@@ -49,7 +49,7 @@ public class PlyayType : MonoBehaviour {
             end.gameObject.transform.localScale = nomalScal;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        if (Input.GetAxisRaw("Vertical") < 0) {
 
             //音を鳴らす
             AudioManager.Instance.PlaySE("Select_SE");
