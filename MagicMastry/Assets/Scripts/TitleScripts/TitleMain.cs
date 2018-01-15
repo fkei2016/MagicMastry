@@ -88,72 +88,6 @@ public class TitleMain : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-        //デバッグワープ
-        if (Input.GetKeyDown(KeyCode.F1)) SceneManager.LoadScene("Game");
-        }
-    }
-
-    EnterChecker ec;
-
-
-
-
-    [SerializeField]
-    private GameObject center;
-
-    [SerializeField]
-    private Camera camera;
-
-    [SerializeField]
-    private GameObject titleImage;
-
-    [SerializeField]
-    private GameObject selectImage;
-
-    [SerializeField]
-    private GameObject magicImage;
-
-    [SerializeField]
-    GameObject nameSetState; //プレイヤーの名前を決めるシーン
-
-    [SerializeField]
-    InputField inputField; //名前入力フィールド
-
-    [SerializeField]
-    GameObject RoomSelectState; //ルーム選択状態
-
-
-    private PlyayType playtype;
-
-    private MagicSelect magicSelect;
-
-    private bool moveFlag = false;
-
-    enum State
-    {
-        stop,
-        Title,
-        Select,
-        SelectOne,
-        MagicSelect,
-        MagicSelectOne,
-        NameSet,
-        RoomSelect,
-    }
-
-    State state = State.stop;
-
-    // Use this for initialization
-    void Start()
-    {
-        playtype =GetComponent<PlyayType>();
-        magicSelect = GetComponent<MagicSelect>();
-    }
-
-    // Update is called once per frame
     void Update(){
 
 
@@ -241,9 +175,8 @@ public class TitleMain : MonoBehaviour
                     magicSelect.enabled = true;
                 }
 
-                //ゲームを開始させる
-                if(Input.GetAxisRaw("Space") != 0)
-                {
+                //名前入力へ
+                if(Input.GetAxisRaw("Space") != 0 && magicSelect.CheckAllMagicSelect()){
                     ChangeTitleState(State.NameSet);
                 }
 
