@@ -35,10 +35,10 @@ public class MagicSelect : MonoBehaviour {
     private Image buttonX; //a
     [SerializeField]
     private Image buttonY; //w
-    int buttonA_ID; //s
-    int buttonB_ID; //d
-    int buttonX_ID; //a
-    int buttonY_ID; //w  
+    int buttonA_ID = -1; //s
+    int buttonB_ID = -1; //d
+    int buttonX_ID = -1; //a
+    int buttonY_ID = -1; //w  
 
     [SerializeField]
     Text magicText; //魔法説明用のテキスト
@@ -192,7 +192,9 @@ public class MagicSelect : MonoBehaviour {
     void SetMagic() {
         //技決定
         //w
-        if (Input.GetAxisRaw("Magic1") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+        if (Input.GetAxisRaw("Magic1") != 0) {
+            //同一IDの消去
+            DeleteIdentityID(magics[magicTab].data[select].saveID);
             buttonY.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonY_ID = magics[magicTab].data[select].saveID;
             //技のセット
@@ -201,7 +203,9 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //a
-        if (Input.GetAxisRaw("Magic2") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+        if (Input.GetAxisRaw("Magic2") != 0) {
+            //同一IDの消去
+            DeleteIdentityID(magics[magicTab].data[select].saveID);
             buttonX.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonX_ID = magics[magicTab].data[select].saveID;
             //技のセット
@@ -210,7 +214,9 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //d
-        if (Input.GetAxisRaw("Magic3") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+        if (Input.GetAxisRaw("Magic3") != 0) {
+            //同一IDの消去
+            DeleteIdentityID(magics[magicTab].data[select].saveID);
             buttonB.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonB_ID = magics[magicTab].data[select].saveID;
             //技のセット
@@ -219,7 +225,9 @@ public class MagicSelect : MonoBehaviour {
             AudioManager.Instance.PlaySE("magicSet");
         }
         //s
-        if (Input.GetAxisRaw("Magic4") != 0 && CheckMagicID(magics[magicTab].data[select].saveID)) {
+        if (Input.GetAxisRaw("Magic4") != 0) {
+            //同一IDの消去
+            DeleteIdentityID(magics[magicTab].data[select].saveID);
             buttonA.sprite = magics[magicTab].data[select].GetComponent<SelectMagicData>().sprite;
             buttonA_ID = magics[magicTab].data[select].saveID;
             //技のセット
@@ -281,12 +289,49 @@ public class MagicSelect : MonoBehaviour {
 
 
     //ID被りがないか
-    bool CheckMagicID(int id) {
-        //以下一つもかぶっていなければ実行を許可する
-        if (id == buttonY_ID) return false;
-        if (id == buttonX_ID) return false;
-        if (id == buttonA_ID) return false;
-        if (id == buttonB_ID) return false;
+    //bool CheckMagicID(int id) {
+    //    //以下一つもかぶっていなければ実行を許可する
+    //    if (id == buttonY_ID) return false;
+    //    if (id == buttonX_ID) return false;
+    //    if (id == buttonB_ID) return false;
+    //    if (id == buttonA_ID) return false;
+
+    //    return true;
+    //}
+
+    //同一IDの消去
+    void DeleteIdentityID(int id) {
+        //同じIDな中身を空にする
+        if (id == buttonY_ID) {
+            buttonY.sprite = null;
+            buttonY_ID = -1;
+            PlayerPrefs.DeleteKey(SaveDataKey.PLAYER_MAGIC1_KEY);
+        }
+        if (id == buttonX_ID) {
+            buttonX.sprite = null;
+            buttonX_ID = -1;
+            PlayerPrefs.DeleteKey(SaveDataKey.PLAYER_MAGIC2_KEY);
+        };
+        if (id == buttonB_ID) {
+            buttonB.sprite = null;
+            buttonB_ID = -1;
+            PlayerPrefs.DeleteKey(SaveDataKey.PLAYER_MAGIC3_KEY);
+        };
+        if (id == buttonA_ID) {
+            buttonA.sprite = null;
+            buttonA_ID = -1;
+            PlayerPrefs.DeleteKey(SaveDataKey.PLAYER_MAGIC4_KEY);
+        };
+    }
+
+
+    //ちゃんと全部魔法が入ってるか
+    public bool CheckAllMagicSelect() {
+        //全て魔法が入っていることが最低条件
+        if (buttonY_ID <= 0) return false;
+        if (buttonX_ID <= 0) return false;
+        if (buttonB_ID <= 0) return false;
+        if (buttonA_ID <= 0) return false;
 
         return true;
     }
